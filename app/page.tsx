@@ -74,7 +74,7 @@ export default function Home() {
         </motion.div>
       </motion.section>
 
-      <section className="relative py-32 px-4 sm:px-6 lg:px-8">
+      <section className="relative py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -85,61 +85,8 @@ export default function Home() {
           >
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Don't regret your impulse spending</h2>
           </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Zap,
-                title: "Lightning Fast",
-                description: "Experience unprecedented speed in everything you do.",
-              },
-              {
-                icon: Shield,
-                title: "Secure by Design",
-                description: "Your data is protected with military-grade encryption.",
-              },
-              {
-                icon: Sparkles,
-                title: "Magical Experience",
-                description: "An interface so intuitive, it feels like magic.",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ scale: 1.05 }}
-                className="glass-card p-8 rounded-2xl group cursor-pointer"
-              >
-                <div className="mb-4 inline-flex p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <feature.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
-
-      <section className="relative py-32 px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center glass-card p-12 rounded-3xl"
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">Ready to experience the future?</h2>
-          <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-            Join thousands of early adopters shaping tomorrow.
-          </p>
-          <WaitlistForm />
-        </motion.div>
-      </section>
-
       <footer className="relative py-12 px-4 sm:px-6 lg:px-8 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">© 2025 Slash. All rights reserved.</p>

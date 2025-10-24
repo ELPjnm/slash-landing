@@ -1,43 +1,45 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { joinWaitlist } from "@/app/actions/waitlist"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { joinWaitlist } from "@/app/actions/waitlist";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export function WaitlistForm() {
-  const [email, setEmail] = useState("")
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
-  const [message, setMessage] = useState("")
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus("loading")
+    e.preventDefault();
+    setStatus("loading");
 
-    const result = await joinWaitlist(email)
+    const result = await joinWaitlist(email);
 
     if (result.success) {
-      setStatus("success")
-      setMessage(result.message)
-      setEmail("")
+      setStatus("success");
+      setMessage(result.message);
+      setEmail("");
     } else {
-      setStatus("error")
-      setMessage(result.message)
+      setStatus("error");
+      setMessage(result.message);
     }
 
     setTimeout(() => {
-      setStatus("idle")
-      setMessage("")
-    }, 5000)
-  }
+      setStatus("idle");
+      setMessage("");
+    }, 5000);
+  };
 
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row gap-3 w-full max-w-md"
+      className="flex flex-col sm:flex-row gap-3 w-full max-w-md relative"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6 }}
@@ -49,12 +51,12 @@ export function WaitlistForm() {
         onChange={(e) => setEmail(e.target.value)}
         required
         disabled={status === "loading"}
-        className="flex-1 bg-muted border-border focus:border-primary transition-colors text-foreground placeholder:text-foreground/50"
+        className="flex-1 bg-white/10 border-white/20 focus:border-blue-500 transition-colors text-white placeholder:text-white/50 backdrop-blur-sm"
       />
       <Button
         type="submit"
         disabled={status === "loading"}
-        className="bg-primary hover:bg-primary/90 glow transition-all duration-300"
+        className="bg-blue-600 hover:bg-blue-700 text-white glow transition-all duration-300"
       >
         {status === "loading" ? "Joining..." : "Join Waitlist"}
       </Button>
@@ -62,11 +64,13 @@ export function WaitlistForm() {
         <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`text-sm ${status === "success" ? "text-accent" : "text-red-400"} absolute -bottom-8 left-0`}
+          className={`text-sm ${
+            status === "success" ? "text-green-400" : "text-red-400"
+          } absolute -bottom-8 left-0 w-full text-center`}
         >
           {message}
         </motion.p>
       )}
     </motion.form>
-  )
+  );
 }

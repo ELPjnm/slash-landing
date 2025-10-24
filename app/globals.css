@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -160,8 +162,8 @@
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: screen;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.6) 0%, rgba(139, 92, 246, 0.3) 50%, transparent 70%);
-  filter: blur(8px);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.6) 50%, transparent 70%);
+  filter: blur(5px);
   transition: transform 0.15s ease-out;
 }
 
