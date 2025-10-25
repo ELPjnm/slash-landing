@@ -83,7 +83,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Don't regret your impulse spending</h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Take control of your impulse spending</h2>
           </motion.div>
         </div>
       </section>
