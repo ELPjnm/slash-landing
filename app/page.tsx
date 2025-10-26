@@ -57,7 +57,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-xl sm:text-2xl lg:text-3xl text-white font-medium max-w-2xl mx-auto leading-relaxed text-balance"
           >
-            Rewire spending. Build Rewards.
+            Rewire Spending. Build Rewards.
           </motion.p>
 
           <motion.div
