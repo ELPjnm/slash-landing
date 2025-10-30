@@ -57,7 +57,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-xl sm:text-2xl lg:text-3xl text-white font-medium max-w-2xl mx-auto leading-relaxed text-balance"
           >
-            Rewiring your Spending.
+            AI That Defends Your Wallet
           </motion.p>
 
           <motion.div
@@ -100,8 +100,11 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              Save the pennies and the Porsche will buy itself.
+            <h2 className="text-2xl sm:text-4xl  text-white mb-4 italic">
+              In a world wired to make you spend,{" "}
+              <span className="font-bold">
+                it's time tech took the spender's side.
+              </span>
             </h2>
           </motion.div>
 
@@ -109,20 +112,21 @@ export default function Home() {
             {[
               {
                 icon: Shield,
-                title: "Making it Easy to Save",
+                title: "Boundaries That Hold",
                 description:
-                  "Real-time intervention for habitual impulsive spending.",
+                  "Set your own categorical spending caps. When you hit them, Slash steps in to hold the line when willpower won’t.",
               },
               {
                 icon: Zap,
-                title: "AI for You",
-                description: "Agents that learn and adapt to you.",
+                title: "Adaptive Intelligence",
+                description:
+                  "Slash learns your spending rhythm, predicts your weak spots, and adds resistance exactly when you need it.",
               },
               {
                 icon: Sparkles,
-                title: "Manifesting",
+                title: "Progress, Not Punishment",
                 description:
-                  "Putting your money towards dream goals.",
+                  "We visualize how every skipped impulse spend funds a goal of yours that truly matters. Proof that restraint is a reward.",
               },
             ].map((feature, index) => (
               <motion.div
@@ -168,6 +172,27 @@ export default function Home() {
           <WaitlistForm />
         </motion.div>
       </section> */}
+
+      {/* Vision / Features */}
+      <section
+        id="vision"
+        className="relative py-20 md:py-24 px-4 sm:px-6 lg:px-8 snap-start"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-4xl sm:text-5xl mb-4 gradient-text">
+              When the urge to spend hits, we’ll help you keep your money in
+              your pocket.
+            </h2>
+          </motion.div>
+        </div>
+      </section>
 
       <footer className="relative py-12 px-4 sm:px-6 lg:px-8 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
