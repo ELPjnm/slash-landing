@@ -57,7 +57,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-xl sm:text-2xl lg:text-3xl text-white font-medium max-w-2xl mx-auto leading-relaxed text-balance"
           >
-            Rewire Spending. Build Rewards.
+            Rewiring your Spending.
           </motion.p>
 
           <motion.div
@@ -101,7 +101,7 @@ export default function Home() {
             className="text-center mb-8"
           >
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              What if every impulse spend could build your dream life instead?
+              Save the pennies and the Porsche will buy itself.
             </h2>
           </motion.div>
 
@@ -109,21 +109,20 @@ export default function Home() {
             {[
               {
                 icon: Shield,
-                title: "Protect Yourself",
+                title: "Making it Easy to Save",
                 description:
-                  "Real-time intervention for impulsive habitual spending.",
+                  "Real-time intervention for habitual impulsive spending.",
               },
               {
                 icon: Zap,
-                title: "Achieve Your Dreams",
-                description:
-                  "Deliberately redirect savings towards dream goals.",
+                title: "AI for You",
+                description: "Agents that learn and adapt to you.",
               },
               {
                 icon: Sparkles,
-                title: "Transform Reality",
+                title: "Manifesting",
                 description:
-                  "Build your dream life  for the same cost as your old one.",
+                  "Putting your money towards dream goals.",
               },
             ].map((feature, index) => (
               <motion.div
