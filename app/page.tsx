@@ -102,7 +102,7 @@ export default function Home() {
           >
             <h2 className="text-2xl sm:text-4xl  text-white mb-4 italic">
               In a world wired to make you spend,{" "}
-              <span className="font-bold">
+              <span className="gradient-text">
                 it's time tech took the spender's side.
               </span>
             </h2>
@@ -114,7 +114,7 @@ export default function Home() {
                 icon: Shield,
                 title: "Boundaries That Hold",
                 description:
-                  "Set your own categorical spending caps. When you hit them, Slash steps in to hold the line when willpower won’t.",
+                  "Set your own detailed spending caps. When you hit them, Slash steps in to hold the line when willpower won’t.",
               },
               {
                 icon: Zap,
@@ -173,7 +173,7 @@ export default function Home() {
         </motion.div>
       </section> */}
 
-      {/* Vision / Features */}
+      {/* Vision / Features
       <section
         id="vision"
         className="relative py-20 md:py-24 px-4 sm:px-6 lg:px-8 snap-start"
@@ -192,7 +192,7 @@ export default function Home() {
             </h2>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       <footer className="relative py-12 px-4 sm:px-6 lg:px-8 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
