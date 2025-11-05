@@ -55,9 +55,9 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-xl sm:text-2xl lg:text-3xl text-white font-medium max-w-2xl mx-auto leading-relaxed text-balance"
+            className="text-lg sm:text-xl lg:text-2xl text-white font-medium max-w-10xl mx-auto leading-relaxed text-balance"
           >
-            AI That Defends Your Wallet
+            AI That Converts Impulse Losses Into Long-Term Wealth
           </motion.p>
 
           <motion.div
@@ -100,10 +100,10 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8"
           >
-            <h2 className="text-2xl sm:text-4xl  text-white mb-4 italic">
-              In a world wired to make you spend,{" "}
+            <h2 className="text-2xl sm:text-4xl text-white mb-4 italic">
+              We’ve been trained to spend before we think.{" "}
               <span className="gradient-text">
-                it's time tech took the spender's side.
+                Slash helps you save the money you were never meant to lose.
               </span>
             </h2>
           </motion.div>
@@ -112,21 +112,21 @@ export default function Home() {
             {[
               {
                 icon: Shield,
-                title: "Boundaries That Hold",
+                title: "Guard Your Wallet in Real Time",
                 description:
-                  "Set your own detailed spending caps. When you hit them, Slash steps in to hold the line when willpower won’t.",
+                  "Slash reminds you of your financial goals every time you open a spending-based app and blocks it if you exceed your app-specific budget.",
               },
               {
                 icon: Zap,
-                title: "Adaptive Intelligence",
+                title: "AI That Knows You",
                 description:
-                  "Slash learns your spending rhythm, predicts your weak spots, and adds resistance exactly when you need it.",
+                  "Slash helps you identify weak points from your spending activity that cost you and automatically offers extra resistance when you're vulnerable.",
               },
               {
                 icon: Sparkles,
-                title: "Progress, Not Punishment",
+                title: "Visualize the Savings",
                 description:
-                  "We visualize how every skipped impulse spend funds a goal of yours that truly matters. Proof that restraint is a reward.",
+                  "When you say no to an impulse spend, Slash visualizes the money you saved over time and the percentage of a well-planned dream purchase it can fund.",
               },
             ].map((feature, index) => (
               <motion.div
@@ -173,7 +173,7 @@ export default function Home() {
         </motion.div>
       </section> */}
 
-      {/* Vision / Features
+      {/* Vision / Features */}
       <section
         id="vision"
         className="relative py-20 md:py-24 px-4 sm:px-6 lg:px-8 snap-start"
@@ -186,13 +186,14 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8"
           >
-            <h2 className="text-4xl sm:text-5xl mb-4 gradient-text">
-              When the urge to spend hits, we’ll help you keep your money in
-              your pocket.
+            <h2 className="text-4xl sm:text-5xl mb-4 gradient-text p-5">
+              We believe technology should protect the spender, not exploit
+              them. Slash automates discipline and awareness so saving becomes
+              effortless and control feels possible again.
             </h2>
           </motion.div>
         </div>
-      </section> */}
+      </section>
 
       <footer className="relative py-12 px-4 sm:px-6 lg:px-8 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">

@@ -9,7 +9,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "Slash - The Future Awaits",
+  title: "Slash - AI That Protects The Spender",
   description: "Something extraordinary is coming. Join the waitlist.",
   icons: {
     icon: "/favicon.ico",
