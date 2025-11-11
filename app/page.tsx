@@ -44,11 +44,21 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="inline-block"
+            className="inline-block overflow-visible"
           >
-            <h1 className="text-7xl sm:text-8xl lg:text-9xl font-bold tracking-tighter italic pr-8 sm:pr-12 lg:pr-16">
-              <span className="gradient-text pl-2 pr-2">Slash</span>
-            </h1>
+            <div className="flex justify-center overflow-visible">
+              <h1
+                className="text-7xl sm:text-8xl lg:text-9xl font-bold italic gradient-text"
+                style={{
+                  paddingInline: "2px", // total 2 px (≈1 px more per side)
+                  overflow: "visible",
+                  transform: "translateZ(0)",
+                  WebkitMaskImage: "none",
+                }}
+              >
+                Slash
+              </h1>
+            </div>
           </motion.div>
 
           <motion.p
@@ -57,7 +67,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-lg sm:text-xl lg:text-2xl text-white font-medium max-w-10xl mx-auto leading-relaxed text-balance"
           >
-            Real-Time Mindful Spending Assistant
+            The Spending Firewall
           </motion.p>
 
           <motion.div
