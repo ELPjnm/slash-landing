@@ -57,7 +57,7 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-lg sm:text-xl lg:text-2xl text-white font-medium max-w-10xl mx-auto leading-relaxed text-balance"
           >
-            AI That Converts Impulse Losses Into Long-Term Wealth
+            Real-Time Mindful Spending Assistant
           </motion.p>
 
           <motion.div
