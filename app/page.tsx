@@ -211,12 +211,12 @@ export default function Home() {
             © 2025 Slash. All rights reserved.
           </p>
           <div className="flex gap-6">
-            {/* <a
-              href="#"
+            <a
+              href="/privacy"
               className="text-gray-500 hover:text-white transition-colors text-sm"
             >
               Privacy
-            </a> */}
+            </a>
             <a
               href="https://www.linkedin.com/company/the-slash-app/"
               className="text-gray-500 hover:text-white transition-colors text-sm"
