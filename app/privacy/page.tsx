@@ -33,7 +33,7 @@ function Ext({ href, children }: { href: string; children: React.ReactNode }) {
 
 export default function PrivacyPolicy() {
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-transparent">
       <div className="mx-auto max-w-3xl px-6 py-16 sm:px-8 sm:py-20">
         <Link
           href="/"

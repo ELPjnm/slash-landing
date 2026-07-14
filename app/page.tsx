@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { CursorTrail } from "@/components/cursor-trail";
 import { WaitlistForm } from "@/components/waitlist-form";
 import {
   Ban,
@@ -176,22 +175,31 @@ export default function Home() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black">
-      <CursorTrail />
-
-      {/* Gradient orbs background */}
+    <main className="relative min-h-screen overflow-hidden bg-transparent">
+      {/* Gradient orbs background - soft, wide blur for a smooth blend */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 h-[460px] w-[460px] rounded-full bg-primary/20 blur-[120px]" />
-        <div className="absolute -bottom-40 right-0 h-[460px] w-[460px] rounded-full bg-secondary/20 blur-[120px]" />
-        <div className="absolute left-1/2 top-1/2 h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-[120px]" />
+        <div className="absolute -top-40 -left-40 h-[560px] w-[560px] rounded-full bg-secondary/15 blur-[160px]" />
+        <div className="absolute -bottom-48 right-0 h-[560px] w-[560px] rounded-full bg-primary/15 blur-[160px]" />
+        <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-money/[0.06] blur-[170px]" />
       </div>
 
       {/* Nav */}
       <nav className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <span className="gradient-text text-2xl font-bold italic">Slash</span>
+        <a href="/" className="flex items-center gap-2.5">
+          <img
+            src="/slash-logo.png"
+            alt="Slash"
+            className="h-8 w-8 rounded-[7px]"
+            width={32}
+            height={32}
+          />
+          <span className="text-xl font-semibold tracking-tight text-white">
+            Slash
+          </span>
+        </a>
         <a
           href="#waitlist"
-          className="hidden rounded-full border border-border px-4 py-2 text-sm text-gray-400 transition-colors hover:border-primary hover:text-white sm:block"
+          className="hidden rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-white sm:block"
         >
           Join the waitlist
         </a>
@@ -343,26 +351,26 @@ export default function Home() {
                     You&rsquo;ve hit 50% of your limit
                   </p>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/35 bg-amber-400/10 px-[11px] py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-amber-400">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-warn/35 bg-warn/10 px-[11px] py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-warn">
                   ● Soft
                 </span>
               </div>
               <div className="my-3 mb-[22px] flex justify-center">
                 <SpendRing
                   pct={62}
-                  color="#fbbf24"
+                  color="#ffc34a"
                   label="Spent this week"
                   value="$47"
                   of="of $75"
-                  glow="rgba(251,191,36,0.16)"
+                  glow="rgba(255,195,74,0.16)"
                 />
               </div>
-              <div className="rounded-2xl border border-[#23201a] bg-amber-400/[0.06] p-4 text-center">
-                <div className="mb-2 text-[13px] text-gray-400">
+              <div className="rounded-2xl border border-warn/20 bg-warn/[0.06] p-4 text-center">
+                <div className="mb-2 text-[13px] text-muted-foreground">
                   Amazon is blocked
                 </div>
                 <div className="flex items-center justify-center gap-2 text-[15px] font-semibold">
-                  <Clock className="h-4 w-4 text-amber-400" />
+                  <Clock className="h-4 w-4 text-warn" />
                   Wait 1:00 to unlock for 1 hour
                 </div>
               </div>
@@ -387,12 +395,12 @@ export default function Home() {
         </motion.div>
 
         <motion.div {...fadeUp} className="mx-auto mb-11 max-w-[760px]">
-          <div className="h-3 overflow-hidden rounded-full bg-[#16161a]">
+          <div className="h-3 overflow-hidden rounded-full bg-white/[0.06]">
             <div
-              className="h-full w-full opacity-90"
+              className="h-full w-full"
               style={{
                 background:
-                  "linear-gradient(90deg, #34d399 0 50%, #fbbf24 50% 100%)",
+                  "linear-gradient(90deg, #34f0b5 0%, #34f0b5 30%, #ffc34a 55%, #ff5c8a 100%)",
               }}
             />
           </div>
@@ -416,21 +424,21 @@ export default function Home() {
               icon: ShieldCheck,
             },
             {
-              cls: "bg-amber-400",
+              cls: "bg-warn",
               tag: "Soft · 50%",
-              tagCls: "text-amber-400",
+              tagCls: "text-warn",
               pct: "Blocked, not trapped",
-              pctCls: "text-amber-400",
+              pctCls: "text-warn",
               title: "One-minute pause",
               body: "Your apps lock. Really want in? Wait 60 seconds, then unlock for one hour. The delay is the point.",
               icon: Clock,
             },
             {
-              cls: "bg-red-400",
+              cls: "bg-coral",
               tag: "Hard · 100%",
-              tagCls: "text-red-400",
+              tagCls: "text-coral",
               pct: "The line",
-              pctCls: "text-red-400",
+              pctCls: "text-coral",
               title: "Locked until Sunday",
               body: "Hit your limit and there's no override. Apps stay shielded until your week resets. The rule you set holds.",
               icon: Lock,
