@@ -46,19 +46,19 @@ export function WaitlistForm() {
     >
       <Input
         type="email"
-        placeholder="Enter your email"
+        placeholder="you@email.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
         disabled={status === "loading"}
-        className="flex-1 bg-white/10 border-white/20 focus:border-blue-500 transition-colors text-white placeholder:text-white/50 backdrop-blur-sm"
+        className="flex-1 h-12 rounded-xl bg-white/5 border-white/10 focus:border-primary transition-colors text-white placeholder:text-white/40 backdrop-blur-sm"
       />
       <Button
         type="submit"
         disabled={status === "loading"}
-        className="bg-blue-600 hover:bg-blue-700 text-white glow transition-all duration-300"
+        className="h-12 rounded-xl px-6 font-semibold text-white border-0 bg-gradient-to-br from-primary to-secondary shadow-[0_8px_30px_rgba(99,102,241,0.35)] hover:opacity-90 transition-all duration-300"
       >
-        {status === "loading" ? "Joining..." : "Join Waitlist"}
+        {status === "loading" ? "Joining..." : "Join waitlist"}
       </Button>
       {message && (
         <motion.p

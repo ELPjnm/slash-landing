@@ -16,6 +16,9 @@
   --color-accent: #06b6d4;
   --color-accent-foreground: #ffffff;
 
+  /* Money accent - shared with the iOS app for spend/savings figures */
+  --color-money: #34d399;
+
   --color-muted: #1a1a1a;
   --color-muted-foreground: #d4d4d8;
 
