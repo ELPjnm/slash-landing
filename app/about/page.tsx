@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
-import { WaitlistForm } from "@/components/waitlist-form";
-import { Mark, Micro } from "@/components/slash/marks";
 import { Reveal } from "@/components/slash/reveal";
 import { AmbientWash, SiteFooter } from "@/components/slash/site-frame";
 import { SiteHeader } from "@/components/slash/site-header";
@@ -22,38 +21,80 @@ export const metadata: Metadata = {
 
 const intro = {
   eyebrow: "About us",
-  title: "The people building Slash.",
-  body: "Slash is a small, independent project with one job: hold the spending limit you set for yourself. Here's who's behind it.",
+  body: "Slash is a small, independent project with one job: help people spend less money.",
 };
 
 const team = [
   {
     name: "Jaiden Schraut",
-    role: "Cofounder",
-    initials: "JS",
     /** One string per paragraph. */
     blurb: [
       "A new-grad software engineer from the University of Michigan who builds things he wants to exist.",
       "Slash came out of wanting a spending tool that actually holds the line, not just watches it slip.",
     ],
+    photo: {
+      src: "/jaiden-schraut.jpg",
+      /* The source is a head-and-shoulders frame; the avatar crops in on
+         the face. `zoom` is how far in, and `face` is where the face sits
+         in the source, as a fraction of its width and height. Re-frame a
+         new photo by measuring those two numbers and nothing else. */
+      zoom: 2,
+      face: { x: 0.58, y: 0.31 },
+    },
   },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════ */
+
+/** Where the face should land inside the avatar: centred, slightly high. */
+const FACE_TARGET = { x: 0.5, y: 0.45 };
+
+/**
+ * Round portrait, cropped to the face.
+ *
+ * A square source in a square frame fills it exactly, so `object-cover`
+ * alone crops nothing — the zoom has to come from a scale. Scaling about
+ * the right origin is what puts the face in the middle of the frame:
+ * a source point `p` lands at `origin + zoom * (p - origin)`, so solving
+ * that for the origin frames the face without any hand-tuned offsets.
+ */
+function Portrait({ person }: { person: (typeof team)[number] }) {
+  const { src, zoom, face } = person.photo;
+  const origin = {
+    x: (zoom * face.x - FACE_TARGET.x) / (zoom - 1),
+    y: (zoom * face.y - FACE_TARGET.y) / (zoom - 1),
+  };
+
+  return (
+    <div className="relative h-24 w-24 flex-none overflow-hidden rounded-full border border-accent/30 bg-surface-2 sm:h-28 sm:w-28">
+      <Image
+        src={src}
+        alt={person.name}
+        fill
+        /* The crop is a scaled-up slice of the source, so it needs `zoom`
+           times the pixels the 96/112px frame would suggest. */
+        sizes={`(min-width: 640px) ${112 * zoom}px, ${96 * zoom}px`}
+        className="object-cover"
+        style={{
+          transform: `scale(${zoom})`,
+          transformOrigin: `${origin.x * 100}% ${origin.y * 100}%`,
+        }}
+        priority
+      />
+    </div>
+  );
+}
 
 function PersonCard({ person }: { person: (typeof team)[number] }) {
   return (
     <div className="slash-card-raised relative overflow-hidden p-6 sm:p-8">
       <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(179,136,255,0.16),transparent_65%)]" />
 
-      <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
-        <span className="slash-num grid h-16 w-16 flex-none place-items-center rounded-full border border-accent/30 bg-accent-soft text-[22px] text-accent">
-          {person.initials}
-        </span>
+      <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
+        <Portrait person={person} />
 
         <div className="min-w-0">
-          <Micro className="text-accent">{person.role}</Micro>
-          <h2 className="slash-head mt-2 text-[clamp(24px,3.6vw,30px)]">
+          <h2 className="slash-head text-[clamp(24px,3.6vw,30px)]">
             {person.name}
           </h2>
           <div className="mt-4 flex flex-col gap-3">
@@ -74,59 +115,39 @@ function PersonCard({ person }: { person: (typeof team)[number] }) {
 
 export default function About() {
   return (
-    <main className="relative min-h-screen">
+    /* Column layout so the footer sits at the bottom of the viewport on
+       this deliberately short page rather than floating mid-screen. */
+    <main className="relative flex min-h-screen flex-col">
       <AmbientWash />
 
       <SiteHeader />
 
-      {/* ── Intro ─────────────────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-12 pt-12 sm:pb-16 sm:pt-20">
-        <Reveal className="mx-auto max-w-3xl text-center">
-          <Micro className="text-accent">{intro.eyebrow}</Micro>
-          <h1 className="slash-head mt-3 text-[clamp(34px,6vw,56px)]">
-            {intro.title}
-          </h1>
-          <p className="mx-auto mt-5 max-w-[54ch] text-[17px] leading-relaxed text-ink-2 sm:text-[19px]">
-            {intro.body}
-          </p>
-        </Reveal>
-      </section>
-
-      {/* ── The team ──────────────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-16 sm:pb-20">
-        <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
-          {team.map((person, i) => (
-            <Reveal key={person.name} delay={i * 80}>
-              <PersonCard person={person} />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Waitlist ──────────────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 sm:pb-28">
-        <Reveal
-          id="waitlist"
-          className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl border border-rule-strong bg-[image:var(--gradient-card)] px-6 py-14 text-center sm:px-10 sm:py-16"
-        >
-          <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-[520px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,79,255,0.30),transparent_65%)]" />
-          <div className="relative flex flex-col items-center">
-            <Mark size={40} />
-            <h2 className="slash-head mt-6 text-[clamp(26px,4.4vw,40px)]">
-              Slash is coming to iPhone.
-            </h2>
-            <p className="mt-4 text-[16px] text-ink-2 sm:text-[17px]">
-              Be first in line when it launches.
+      {/* Centred in whatever room is left, so a short page sits in the
+          middle of the viewport instead of hugging the header. */}
+      <div className="flex flex-1 flex-col justify-center">
+        {/* ── Intro ───────────────────────────────────────────────── */}
+        <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-10 pt-14 sm:pb-14 sm:pt-20">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <h1 className="slash-micro text-[11px] text-accent">
+              {intro.eyebrow}
+            </h1>
+            <p className="mx-auto mt-4 max-w-[52ch] text-[18px] leading-relaxed text-ink-2 sm:text-[20px]">
+              {intro.body}
             </p>
-            <div className="mt-8 flex w-full justify-center">
-              <WaitlistForm />
-            </div>
-            <p className="slash-mono mt-2 text-[11px] tracking-[0.12em] text-ink-3">
-              IPHONE · IOS 17+ · $2.99/MO · LAUNCHING SOON
-            </p>
+          </Reveal>
+        </section>
+
+        {/* ── The team ────────────────────────────────────────────── */}
+        <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 sm:pb-28">
+          <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+            {team.map((person, i) => (
+              <Reveal key={person.name} delay={i * 80}>
+                <PersonCard person={person} />
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
-      </section>
+        </section>
+      </div>
 
       <SiteFooter />
     </main>

@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Mark } from "@/components/slash/marks";
 import { cn } from "@/lib/utils";
 
 /**
@@ -21,8 +21,18 @@ export function SiteHeader() {
   return (
     <header className="relative z-20">
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-5 sm:py-6">
+        {/* The logo is the app icon itself — the same artwork the browser
+            tab renders from `app/icon.png` — so the header mark and the
+            favicon are one and the same. */}
         <Link href="/" className="flex flex-none items-center gap-2.5">
-          <Mark size={26} />
+          <Image
+            src="/slash-logo.png"
+            alt=""
+            width={30}
+            height={30}
+            className="flex-none"
+            priority
+          />
           <span className="font-display text-[19px] font-semibold tracking-tight">
             Slash
           </span>
