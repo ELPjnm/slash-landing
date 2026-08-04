@@ -3,53 +3,59 @@
 /* ============================================================
    SLASH — landing design tokens.
 
-   Mirrors the iOS app's "Badge" design language, extracted from
-   ios/design-reference/Design (flow-b/slash-tokens.css for the type
-   and radius scale, slash-badge/c-base.jsx for the dark palette that
-   the shipping app actually renders).
+   Derived from the shipping iOS app, not from a prototype. Every
+   value below is transcribed from
+   ios/spending-control-iOS-app/Shared/SlashTheme.swift.
 
-   Everything on this page should reference these tokens rather than
-   hardcoding a hex, so the site stays in step with the app.
+   THE RULE THAT GOVERNS EVERYTHING: there is exactly one chromatic
+   voice — Signal Purple. Under / halfway / over / good / bad are all
+   tones of that one hue (dim → full → strong), never a hue swap.
+   Structure is carried by the neutral canvas and the ink ramp.
+   Introducing a green, amber, teal, or coral is off-brand.
+
+   Sections reference these tokens rather than hardcoding a hex, so
+   the site stays in step with the app.
    ============================================================ */
 
 @theme {
   /* ── Type families ─────────────────────────────────────────
-     Inter carries body copy, Space Grotesk carries display and
-     numerals, Instrument Serif is the one italic moment per
-     screen, JetBrains Mono labels numeric badges. */
+     Three voices, matching the app exactly. Space Grotesk carries
+     display type and money, Inter carries body and UI, JetBrains
+     Mono carries uppercase eyebrows and inline numbers. The app
+     renders no serif and no italic — neither does this page. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* ── Base surfaces (C.bg / bg2 / bg3) ──────────────────── */
+  /* ── Canvas (SlashTheme bg / bg2 / bg3) ────────────────── */
   --color-background: #0e0b22;
   --color-surface: #181333;
   --color-surface-2: #221b45;
 
-  /* ── Ink ramp (C.ink / ink2 / ink3 / ink4) ─────────────── */
+  /* ── Ink ramp (ink / ink2 / ink3 / ink4) ───────────────── */
   --color-foreground: #fbfafe;
   --color-ink-2: #c7c0e6;
   --color-ink-3: #8b82b8;
   --color-ink-4: #5a527f;
 
-  /* ── Rules (C.rule / ruleStrong) ───────────────────────── */
+  /* ── Rules (rule / ruleStrong) ─────────────────────────── */
   --color-rule: rgba(255, 255, 255, 0.08);
   --color-rule-strong: rgba(255, 255, 255, 0.16);
 
-  /* ── Accents ───────────────────────────────────────────── */
-  --color-primary: #7a4fff; /* C.purpleDeep */
-  --color-accent: #b388ff; /* C.purple */
-  --color-money: #34f0b5; /* C.green */
-  --color-money-deep: #0ba876; /* C.greenDeep */
-  --color-coral: #ff5c8a;
-  --color-amber: #ffc34a;
+  /* ── Signal Purple — the single accent ─────────────────── */
+  --color-accent: #b388ff; /* the one accent */
+  --color-accent-strong: #c9a6ff; /* over-cap hero number, breach marker */
+  --color-accent-deep: #7a4fff; /* gradient bottom / pressed */
+  --color-accent-dim: rgba(179, 136, 255, 0.34); /* under-state fill */
+  --color-accent-soft: rgba(179, 136, 255, 0.12); /* soft chip field */
+  --color-accent-ink: #1b0b33; /* dark ink on top of the accent */
 
   /* ── shadcn/Radix compatibility aliases ────────────────── */
-  --color-primary-foreground: #0e0b22;
-  --color-secondary: #b388ff;
-  --color-secondary-foreground: #0e0b22;
-  --color-accent-foreground: #0e0b22;
+  --color-primary: #b388ff;
+  --color-primary-foreground: #1b0b33;
+  --color-secondary: #7a4fff;
+  --color-secondary-foreground: #1b0b33;
+  --color-accent-foreground: #1b0b33;
   --color-card: #181333;
   --color-card-foreground: #fbfafe;
   --color-muted: #221b45;
@@ -57,11 +63,10 @@
   --color-border: rgba(255, 255, 255, 0.08);
   --color-input: rgba(255, 255, 255, 0.16);
   --color-ring: #b388ff;
-  --color-destructive: #ff5c8a;
-  --color-destructive-foreground: #0e0b22;
-  --color-warn: #ffc34a;
+  --color-destructive: #c9a6ff;
+  --color-destructive-foreground: #1b0b33;
 
-  /* ── Radii (slash-tokens.css) ──────────────────────────── */
+  /* ── Radii — cards are 18pt continuous in the app ──────── */
   --radius-xs: 6px;
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -76,11 +81,9 @@
 }
 
 @theme inline {
-  /* Gradients reused across the page — the app's canonical pairs. */
-  --gradient-purple: linear-gradient(135deg, #b388ff, #7a4fff);
-  --gradient-green: linear-gradient(135deg, #6dffd2, #19d58e);
-  --gradient-coral: linear-gradient(135deg, #ff7ba0, #e63e70);
-  --gradient-app-bg: linear-gradient(170deg, #14102e 0%, #0e0b22 70%);
+  /* accentGrad and bgGrad, the app's only two gradients. */
+  --gradient-accent: linear-gradient(135deg, #b388ff, #7a4fff);
+  --gradient-app-bg: linear-gradient(135deg, #14102e 0%, #0e0b22 100%);
   --gradient-card: linear-gradient(165deg, #221b45, #181333);
 }
 
@@ -112,41 +115,34 @@ body {
   }
 }
 
-/* ── Type roles, matching the app's component primitives ─────
-   .slash-micro  → CMicro  (uppercase 0.18em tracking eyebrow)
-   .slash-head   → CHead   (Space Grotesk, tight tracking)
-   .slash-num    → CNum    (tabular display numerals)
-   .slash-serif  → CSerif  (the italic serif moment) */
+/* ── Type roles, matching the app's `SlashType` primitives ───
+   .slash-micro → eyebrow()     JetBrains Mono, uppercase, wide track
+   .slash-head  → displayL()    Space Grotesk SemiBold, tight track
+   .slash-num   → dataHero()    Space Grotesk SemiBold, tabular
+   .slash-mono  → dataInline()  JetBrains Mono, tabular */
 
 .slash-micro {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
   line-height: 1.4;
 }
 
 .slash-head {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
   text-wrap: pretty;
 }
 
 .slash-num {
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
   font-variant-numeric: tabular-nums;
-}
-
-.slash-serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
 }
 
 .slash-mono {
@@ -154,35 +150,40 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Gradient-clipped purple text — the app's purpleGrad on type. */
+/* Gradient-clipped accent type — the app's accentGrad on text. */
 .gradient-text {
-  background: var(--gradient-purple);
+  background: var(--gradient-accent);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
-.gradient-text-green {
-  background: var(--gradient-green);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-/* Standard card surface — C.bg2 with a hairline rule. */
+/* Standard card surface — bg2 with a hairline rule, 18pt radius. */
 .slash-card {
   background: var(--color-surface);
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-lg);
 }
 
-/* Elevated card — the gradient bg3→bg2 used for hero cards in-app. */
+/* Elevated card — the bg3→bg2 gradient used for hero cards in-app. */
 .slash-card-raised {
   background: var(--gradient-card);
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-xl);
+}
+
+/* The diagonal-hatch fill the app uses for overflow past the cap and
+   for weeks that went over — `DiagonalHatch(spacing: 6, lineWidth: 2)`. */
+.slash-hatch {
+  background-color: rgba(179, 136, 255, 0.22);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(201, 166, 255, 0.85) 0px,
+    rgba(201, 166, 255, 0.85) 2px,
+    transparent 2px,
+    transparent 6px
+  );
 }
 
 /* Scroll reveal — driven by components/slash/reveal.tsx.

@@ -1,16 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import {
-  Inter,
-  Instrument_Serif,
-  JetBrains_Mono,
-  Space_Grotesk,
-} from "next/font/google"
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 
-/* The app's four families: Inter for copy, Space Grotesk for display and
-   numerals, Instrument Serif for the one italic moment per screen, and
-   JetBrains Mono for numeric badges. See design-reference c-base.jsx. */
+/* The app ships exactly three families and no serif: Inter for copy and
+   UI, Space Grotesk SemiBold for display type and money, JetBrains Mono
+   for uppercase eyebrows and inline numbers. See SlashTheme.swift. */
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -20,14 +15,6 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
-  display: "swap",
-})
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
   display: "swap",
 })
 
@@ -56,7 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body className="font-sans antialiased">{children}</body>
     </html>
