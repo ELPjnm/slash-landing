@@ -6,9 +6,12 @@ This file is the project's committed home for project-intrinsic agent knowledge:
 
 The marketing site for **theslash.app**, an unreleased iPhone spending-firewall app.
 Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
-The whole public surface is `app/page.tsx` plus `/privacy` and `/terms`.
+The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, and `/terms`.
+The header and footer are shared: `components/slash/site-header.tsx` owns the nav (add a tab to its `tabs` array, not to a page) and `components/slash/site-frame.tsx` owns the ambient wash and the footer.
+`/privacy` and `/terms` predate that chrome and still render their own "Back to home" link instead.
 
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
+The About page's words live in the `intro` and `team` constants at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
 
 ## Design source of truth
 
