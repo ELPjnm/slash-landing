@@ -1,594 +1,561 @@
-"use client";
-
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
-import { WaitlistForm } from "@/components/waitlist-form";
 import {
   Ban,
-  Lock,
+  Building2,
   EyeOff,
+  Lock,
   Smartphone,
   Trash2,
   UserCheck,
-  ShieldCheck,
-  Clock,
 } from "lucide-react";
 
-/* ---------- Phone mockup primitives ---------- */
+import { WaitlistForm } from "@/components/waitlist-form";
+import { Mark, Micro, Serif, ShieldSoft } from "@/components/slash/marks";
+import {
+  HomeScreen,
+  Phone,
+  ShieldScreen,
+  SpendBar,
+  StreakRing,
+} from "@/components/slash/phone";
+import { Reveal } from "@/components/slash/reveal";
 
-function Phone({ children }: { children: ReactNode }) {
-  return (
-    <div className="w-[300px] rounded-[44px] p-3 border border-[#2c2c31] bg-gradient-to-b from-[#26262b] to-[#101014] shadow-[0_40px_90px_rgba(0,0,0,0.6),0_0_60px_rgba(99,102,241,0.12)]">
-      <div
-        className="relative h-[600px] overflow-hidden rounded-[34px] px-[18px] pb-6 pt-[18px]"
-        style={{
-          background:
-            "radial-gradient(120% 90% at 50% 0%, #12131c 0%, #0a0a0f 60%)",
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
+/* ── Section chrome ─────────────────────────────────────────────────── */
 
-function StatusBar({ right }: { right: string }) {
-  return (
-    <div className="mb-5 flex items-center justify-between text-[13px] text-gray-400">
-      <span className="font-semibold text-white">9:41</span>
-      <span>{right}</span>
-    </div>
-  );
-}
-
-function SpendRing({
-  pct,
-  color,
-  label,
-  value,
-  of,
-  glow,
+function Section({
+  children,
+  className,
+  id,
 }: {
-  pct: number;
-  color: string;
-  label: string;
-  value: string;
-  of: string;
-  glow: string;
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
 }) {
   return (
-    <div
-      className="relative grid h-52 w-52 place-items-center rounded-full"
-      style={{
-        background: `conic-gradient(${color} 0 ${pct}%, #1f2937 ${pct}% 100%)`,
-        boxShadow: `0 0 40px ${glow}`,
-      }}
+    <section
+      id={id}
+      className={`relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-6 ${
+        className ?? ""
+      }`}
     >
-      <div className="absolute inset-4 rounded-full bg-[#0a0a0f]" />
-      <div className="relative text-center">
-        <div className="text-[11px] uppercase tracking-[0.12em] text-gray-500">
-          {label}
-        </div>
-        <div
-          className="pb-0.5 text-[46px] font-bold leading-[1.18]"
-          style={{ color }}
-        >
-          {value}
-        </div>
-        <div className="text-[13px] text-gray-400">{of}</div>
-      </div>
-    </div>
+      {children}
+    </section>
   );
 }
 
-function Transaction({
-  logo,
-  bg,
-  name,
-  meta,
-  amount,
+function SectionHead({
+  eyebrow,
+  eyebrowTone = "text-accent",
+  title,
+  body,
+  centered,
 }: {
-  logo: string;
-  bg: string;
-  name: string;
-  meta: string;
-  amount: string;
+  eyebrow: string;
+  eyebrowTone?: string;
+  title: React.ReactNode;
+  body?: React.ReactNode;
+  centered?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 border-t border-[#17171b] py-[11px]">
-      <div
-        className="grid h-[34px] w-[34px] place-items-center rounded-[9px] text-xs font-bold text-white"
-        style={{ background: bg }}
-      >
-        {logo}
-      </div>
-      <div>
-        <div className="text-sm font-medium text-white">{name}</div>
-        <div className="text-[11.5px] text-gray-500">{meta}</div>
-      </div>
-      <div className="ml-auto text-sm font-semibold text-white">{amount}</div>
-    </div>
+    <Reveal className={centered ? "mx-auto max-w-2xl text-center" : undefined}>
+      <Micro className={eyebrowTone}>{eyebrow}</Micro>
+      <h2 className="slash-head mt-3 text-[clamp(28px,4.6vw,44px)]">{title}</h2>
+      {body && (
+        <p
+          className={`mt-4 text-[16px] leading-relaxed text-ink-2 sm:text-[17px] ${
+            centered ? "mx-auto max-w-[58ch]" : "max-w-[58ch]"
+          }`}
+        >
+          {body}
+        </p>
+      )}
+    </Reveal>
   );
 }
 
-/* ---------- Section helpers ---------- */
+/* ── Page ───────────────────────────────────────────────────────────── */
 
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.6 },
-};
+const steps = [
+  {
+    n: "01",
+    title: "Set your weekly limit",
+    body: "Pick what you're allowed to spend on shopping this week. Locked once set — no cheating mid-week.",
+  },
+  {
+    n: "02",
+    title: "Connect your bank",
+    body: "Securely through Plaid. Slash watches your shopping transactions — that's all it reads.",
+  },
+  {
+    n: "03",
+    title: "Cross the line, apps lock",
+    body: "Go over and Slash shields the apps you picked using Apple Screen Time. On your phone, by your rules.",
+  },
+];
 
-/* ---------- Page ---------- */
+const guarantees = [
+  {
+    icon: Ban,
+    title: "No ads, no selling",
+    body: "We never sell or rent your data, and there are no advertising or analytics SDKs in the app.",
+  },
+  {
+    icon: Lock,
+    title: "Bank-grade encryption",
+    body: "Bank access tokens are encrypted at rest (AES-256) and never exposed to the app or any third party.",
+  },
+  {
+    icon: EyeOff,
+    title: "No tracking",
+    body: "Slash doesn't track you across other apps or websites. It reads your shopping transactions and nothing else.",
+  },
+  {
+    icon: Smartphone,
+    title: "Choices stay on-device",
+    body: "The apps you pick to block are chosen through Apple's system picker and never leave your phone.",
+  },
+  {
+    icon: Trash2,
+    title: "Delete anytime",
+    body: "Wipe your account and every trace of your data instantly, right from Settings. No emails, no waiting.",
+  },
+  {
+    icon: UserCheck,
+    title: "Yours, not a guardian's",
+    body: "Slash is self-monitoring — you watching your own spending. No parent, no boss, no one else involved.",
+  },
+];
+
+const tiers = [
+  {
+    tag: "Under · 0–50%",
+    accent: "text-money",
+    rail: "bg-money",
+    ring: "border-money/25",
+    headline: "All clear",
+    title: "Everything's open",
+    body: "Spend freely. Slash quietly tracks your shopping in the background and shows what's left.",
+  },
+  {
+    tag: "Soft · 50%",
+    accent: "text-amber",
+    rail: "bg-amber",
+    ring: "border-amber/25",
+    headline: "Blocked, not trapped",
+    title: "One-minute pause",
+    body: "Your apps lock. Really want in? Wait 60 seconds, then unlock for one hour. The delay is the point.",
+  },
+  {
+    tag: "Hard · 100%",
+    accent: "text-coral",
+    rail: "bg-coral",
+    ring: "border-coral/25",
+    headline: "The line",
+    title: "Locked until Sunday",
+    body: "Hit your limit and there's no override. Apps stay shielded until your week resets. The rule you set holds.",
+  },
+];
 
 export default function Home() {
-  const guarantees = [
-    {
-      icon: Ban,
-      title: "No ads, no selling",
-      body: "We never sell or rent your data, and there are no advertising or analytics SDKs in the app.",
-    },
-    {
-      icon: Lock,
-      title: "Bank-grade encryption",
-      body: "Bank access tokens are encrypted at rest (AES-256) and never exposed to the app or any third party.",
-    },
-    {
-      icon: EyeOff,
-      title: "No tracking",
-      body: "Slash doesn't track you across other apps or websites. It reads your shopping transactions and nothing else.",
-    },
-    {
-      icon: Smartphone,
-      title: "Choices stay on-device",
-      body: "The apps you pick to block are chosen through Apple's system picker and never leave your phone.",
-    },
-    {
-      icon: Trash2,
-      title: "Delete anytime",
-      body: "Wipe your account and every trace of your data instantly, right from Settings. No emails, no waiting.",
-    },
-    {
-      icon: UserCheck,
-      title: "Yours, not a guardian's",
-      body: "Slash is self-monitoring — you watching your own spending. No parent, no boss, no one else involved.",
-    },
-  ];
-
-  const steps = [
-    {
-      n: 1,
-      title: "Set your weekly limit",
-      body: "Pick what you're allowed to spend on shopping this week. Locked once set — no cheating mid-week.",
-    },
-    {
-      n: 2,
-      title: "Connect your bank",
-      body: "Securely through Plaid. Slash watches your shopping transactions — that's all it reads.",
-    },
-    {
-      n: 3,
-      title: "Cross the line, apps lock",
-      body: "Go over and Slash shields the apps you picked using Apple Screen Time. On your phone, by your rules.",
-    },
-  ];
-
   return (
-    <main className="relative min-h-screen overflow-hidden bg-transparent">
-      {/* Gradient orbs background - soft, wide blur for a smooth blend */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 h-[560px] w-[560px] rounded-full bg-secondary/15 blur-[160px]" />
-        <div className="absolute -bottom-48 right-0 h-[560px] w-[560px] rounded-full bg-primary/15 blur-[160px]" />
-        <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-money/[0.06] blur-[170px]" />
+    <main className="relative min-h-screen">
+      {/* Ambient orbs — the app's purple/green wash, softly blurred. */}
+      <div
+        className="pointer-events-none fixed inset-0 overflow-hidden"
+        aria-hidden
+      >
+        <div className="absolute -left-40 -top-52 h-[620px] w-[620px] rounded-full bg-accent/[0.14] blur-[170px]" />
+        <div className="absolute -right-48 top-[45%] h-[560px] w-[560px] rounded-full bg-primary/[0.16] blur-[170px]" />
+        <div className="absolute -bottom-56 left-1/3 h-[520px] w-[520px] rounded-full bg-money/[0.06] blur-[180px]" />
       </div>
 
-      {/* Nav */}
-      <nav className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <a href="/" className="flex items-center gap-2.5">
-          <img
-            src="/slash-logo.png"
-            alt="Slash"
-            className="h-8 w-8 rounded-[7px]"
-            width={32}
-            height={32}
-          />
-          <span className="text-xl font-semibold tracking-tight text-white">
-            Slash
-          </span>
-        </a>
-        <a
-          href="#waitlist"
-          className="hidden rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-white sm:block"
-        >
-          Join the waitlist
-        </a>
-      </nav>
-
-      {/* Hero */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-12">
-        <div className="grid items-center gap-10 md:grid-cols-[1.05fr_0.95fr]">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="mb-6 inline-block rounded-full border border-secondary/35 bg-secondary/10 px-3 py-1.5 text-[12.5px] uppercase tracking-[0.16em] text-secondary">
-              The Spending Firewall
+      {/* ── Nav ───────────────────────────────────────────────────── */}
+      <header className="relative z-20">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-6 sm:py-6">
+          <a href="/" className="flex items-center gap-2.5">
+            <Mark size={30} />
+            <span className="font-display text-[19px] font-bold tracking-tight">
+              Slash
             </span>
-            <h1 className="text-[clamp(40px,6vw,68px)] font-bold leading-[1.1] tracking-[-0.02em]">
-              Blocks your shopping apps{" "}
-              <span className="gradient-text">when you overspend.</span>
-            </h1>
-            <p className="mt-6 max-w-[32ch] text-lg text-gray-400 sm:text-xl">
-              Set a weekly limit. Connect your bank. Cross the line and Slash{" "}
-              <span className="font-semibold text-white">
-                locks the apps you chose
-              </span>{" "}
-              — right on your iPhone.
-            </p>
-            <div id="waitlist" className="mt-8">
-              <WaitlistForm />
-            </div>
-            <div className="mt-6 flex flex-wrap gap-5 text-[13px] text-gray-500">
-              {["No ads, ever", "Never sells your data", "iPhone · iOS 17+"].map(
-                (t) => (
-                  <span key={t} className="inline-flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-money" />
-                    {t}
-                  </span>
-                )
-              )}
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="flex justify-center"
+          </a>
+          <a
+            href="#waitlist"
+            className="rounded-full border border-rule-strong px-4 py-2 text-[13.5px] font-medium text-ink-2 transition-colors hover:border-accent hover:text-foreground"
           >
+            Join the waitlist
+          </a>
+        </nav>
+      </header>
+
+      {/* ── Hero ──────────────────────────────────────────────────── */}
+      <Section className="pb-16 pt-6 sm:pb-24 sm:pt-10">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
+          <div>
+            <Reveal>
+              <span className="slash-micro inline-block rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-[10.5px] text-accent">
+                The Spending Firewall
+              </span>
+            </Reveal>
+
+            <Reveal delay={60}>
+              <h1 className="slash-head mt-5 text-[clamp(38px,7vw,66px)]">
+                Blocks your shopping apps{" "}
+                <span className="gradient-text">when you overspend.</span>
+              </h1>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <p className="mt-5 max-w-[38ch] text-[17px] leading-relaxed text-ink-2 sm:text-[19px]">
+                Set a weekly limit. Connect your bank. Cross the line and Slash{" "}
+                <span className="font-semibold text-foreground">
+                  locks the apps you chose
+                </span>{" "}
+                — right on your iPhone.
+              </p>
+            </Reveal>
+
+            <Reveal delay={180} id="waitlist" className="mt-7">
+              <WaitlistForm />
+            </Reveal>
+
+            <Reveal delay={240}>
+              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-ink-3">
+                {["No ads, ever", "Never sells your data", "iPhone · iOS 17+"].map(
+                  (t) => (
+                    <li key={t} className="inline-flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 flex-none rounded-full bg-money" />
+                      {t}
+                    </li>
+                  )
+                )}
+              </ul>
+            </Reveal>
+          </div>
+
+          <Reveal delay={140} className="flex justify-center lg:justify-end">
             <Phone>
-              <StatusBar right="● ON TRACK" />
-              <div className="mb-[18px] flex items-start justify-between">
-                <div>
-                  <h4 className="text-xl font-semibold">Looking good.</h4>
-                  <p className="mt-0.5 text-[12.5px] text-gray-500">
-                    Week 8 · Tuesday
-                  </p>
-                </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-money/35 bg-money/10 px-[11px] py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-money">
-                  ● On track
-                </span>
-              </div>
-              <div className="my-3 mb-[22px] flex justify-center">
-                <SpendRing
-                  pct={63}
-                  color="#34d399"
-                  label="Left this week"
-                  value="$28"
-                  of="of $75"
-                  glow="rgba(52,211,153,0.18)"
-                />
-              </div>
-              <Transaction
-                logo="a"
-                bg="#ff9900"
-                name="Amazon"
-                meta="Shopping · Today"
-                amount="$24.00"
-              />
-              <Transaction
-                logo="D"
-                bg="#ff3008"
-                name="DoorDash"
-                meta="Food · Yesterday"
-                amount="$23.00"
-              />
+              <HomeScreen />
             </Phone>
-          </motion.div>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Problem */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 py-24 text-center">
-        <motion.h2
-          {...fadeUp}
-          className="mx-auto max-w-[22ch] text-[clamp(26px,3.6vw,40px)] font-semibold italic leading-[1.32]"
-        >
-          We&rsquo;ve been trained to spend before we think.{" "}
-          <span className="gradient-text">
-            Slash puts a wall between the impulse and the tap.
-          </span>
-        </motion.h2>
-      </section>
+      {/* ── The problem — the italic serif moment ─────────────────── */}
+      <Section className="py-20 sm:py-28">
+        <Reveal className="mx-auto max-w-3xl text-center">
+          <Micro className="text-ink-3">Why it exists</Micro>
+          <p className="slash-head mt-4 text-[clamp(26px,4.4vw,42px)] leading-[1.14]">
+            We&rsquo;ve been trained to spend before we think.{" "}
+            <Serif className="gradient-text text-[1.12em]">
+              Slash puts a wall between the impulse and the tap.
+            </Serif>
+          </p>
+        </Reveal>
+      </Section>
 
-      {/* How it works */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 py-24">
-        <div className="grid items-center gap-14 md:grid-cols-2">
-          <motion.div {...fadeUp}>
-            <div className="mb-3.5 text-[12.5px] uppercase tracking-[0.16em] text-accent">
-              How it works
-            </div>
-            <h2 className="text-[clamp(28px,4vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
-              Three steps. Then it runs itself.
-            </h2>
-            <p className="mt-3.5 max-w-[60ch] text-lg text-gray-400">
-              No spreadsheets, no willpower streaks to protect. You set the rule
-              once and Slash enforces it automatically.
-            </p>
-            <div className="mt-7 flex flex-col gap-[18px]">
-              {steps.map((s) => (
-                <div
+      {/* ── How it works ─────────────────────────────────────────── */}
+      <Section className="py-16 sm:py-20">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <SectionHead
+              eyebrow="How it works"
+              title="Three steps. Then it runs itself."
+              body="No spreadsheets, no willpower streaks to protect. You set the rule once and Slash enforces it automatically."
+            />
+            <div className="mt-8 flex flex-col gap-3">
+              {steps.map((s, i) => (
+                <Reveal
                   key={s.n}
-                  className="flex items-start gap-4 rounded-2xl border border-border bg-white/[0.015] p-5"
+                  delay={i * 80}
+                  className="slash-card flex items-start gap-4 p-5"
                 >
-                  <div className="grid h-10 w-10 flex-none place-items-center rounded-xl bg-gradient-to-br from-primary to-secondary text-[17px] font-bold text-white">
+                  <span className="slash-num grid h-11 w-11 flex-none place-items-center rounded-md bg-[image:var(--gradient-purple)] text-[15px] text-background">
                     {s.n}
-                  </div>
+                  </span>
                   <div>
-                    <h4 className="mb-1 text-[17px] font-semibold">{s.title}</h4>
-                    <p className="text-[14.5px] text-gray-400">{s.body}</p>
+                    <h3 className="font-display text-[16.5px] font-bold tracking-tight">
+                      {s.title}
+                    </h3>
+                    <p className="mt-1.5 text-[14px] leading-relaxed text-ink-2">
+                      {s.body}
+                    </p>
                   </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <Reveal delay={120} className="flex justify-center lg:order-last">
+            <Phone>
+              <ShieldScreen tier="timeout" />
+            </Phone>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* ── Features ─────────────────────────────────────────────── */}
+      <Section className="py-16 sm:py-20">
+        <SectionHead
+          eyebrow="What's inside"
+          eyebrowTone="text-money"
+          title="A tracker and a lock, in one app."
+          body="Slash reads what you spend and acts on it. No manual logging, no dashboards to babysit."
+          centered
+        />
+
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          {/* Real-time spend tracking */}
+          <Reveal className="slash-card-raised flex flex-col overflow-hidden p-6">
+            <div className="relative flex justify-center py-4">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(52,240,181,0.12),transparent_65%)]" />
+              <StreakRing
+                value="$28"
+                label="Remaining"
+                size={132}
+                progress={0.63}
+                numerals="display"
+              />
+            </div>
+            <h3 className="mt-5 font-display text-[18px] font-bold tracking-tight">
+              Real-time spend tracking
+            </h3>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
+              Every shopping charge lands in Slash within minutes. The ring shows
+              exactly what&rsquo;s left before your apps start closing.
+            </p>
+            <div className="mt-6">
+              <SpendBar pct={63} />
+              <div className="slash-mono mt-2 flex justify-between text-[10.5px] text-ink-3">
+                <span>$47 SPENT</span>
+                <span>OF $75</span>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Screen Time blocking */}
+          <Reveal delay={80} className="slash-card-raised flex flex-col overflow-hidden p-6">
+            <div className="relative flex justify-center py-4">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(179,136,255,0.14),transparent_65%)]" />
+              <div className="grid h-[132px] w-[132px] place-items-center rounded-full border border-rule bg-surface/60">
+                <ShieldSoft size={76} className="text-accent" />
+              </div>
+            </div>
+            <h3 className="mt-5 font-display text-[18px] font-bold tracking-tight">
+              Blocking that actually holds
+            </h3>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
+              Slash uses Apple Screen Time to shield the apps you picked. Soft
+              caps buy you a pause; hard caps hold until the week resets.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {["Soft cap", "Hard cap", "Your picks only"].map((t) => (
+                <span
+                  key={t}
+                  className="slash-mono rounded-full border border-rule bg-surface px-2.5 py-1 text-[10px] font-bold tracking-[0.06em] text-ink-2"
+                >
+                  {t.toUpperCase()}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Plaid */}
+          <Reveal delay={160} className="slash-card-raised flex flex-col overflow-hidden p-6">
+            <div className="relative flex justify-center py-4">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(122,79,255,0.16),transparent_65%)]" />
+              <div className="grid h-[132px] w-[132px] place-items-center rounded-full border border-rule bg-surface/60">
+                <Building2 className="h-[62px] w-[62px] text-accent" strokeWidth={1.25} />
+              </div>
+            </div>
+            <h3 className="mt-5 font-display text-[18px] font-bold tracking-tight">
+              Bank connect via Plaid
+            </h3>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
+              Link your account through Plaid — the same connector your other
+              finance apps use. Slash gets read-only transactions, nothing more.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              {[
+                "Read-only access",
+                "No card numbers stored",
+                "Revoke whenever",
+              ].map((label) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 text-[13px] text-ink-2"
+                >
+                  <span className="h-1.5 w-1.5 flex-none rounded-full bg-money" />
+                  {label}
                 </div>
               ))}
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="flex justify-center md:order-last"
-          >
-            <Phone>
-              <StatusBar right="● SOFT" />
-              <div className="mb-[18px] flex items-start justify-between">
-                <div>
-                  <h4 className="text-xl font-semibold">Slow down.</h4>
-                  <p className="mt-0.5 text-[12.5px] text-gray-500">
-                    You&rsquo;ve hit 50% of your limit
-                  </p>
-                </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-warn/35 bg-warn/10 px-[11px] py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-warn">
-                  ● Soft
-                </span>
-              </div>
-              <div className="my-3 mb-[22px] flex justify-center">
-                <SpendRing
-                  pct={62}
-                  color="#ffc34a"
-                  label="Spent this week"
-                  value="$47"
-                  of="of $75"
-                  glow="rgba(255,195,74,0.16)"
-                />
-              </div>
-              <div className="rounded-2xl border border-warn/20 bg-warn/[0.06] p-4 text-center">
-                <div className="mb-2 text-[13px] text-muted-foreground">
-                  Amazon is blocked
-                </div>
-                <div className="flex items-center justify-center gap-2 text-[15px] font-semibold">
-                  <Clock className="h-4 w-4 text-warn" />
-                  Wait 1:00 to unlock for 1 hour
-                </div>
-              </div>
-            </Phone>
-          </motion.div>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Mechanic */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 py-24">
-        <motion.div {...fadeUp} className="mx-auto mb-11 max-w-[720px] text-center">
-          <div className="mb-3.5 text-[12.5px] uppercase tracking-[0.16em] text-secondary">
-            The mechanic
-          </div>
-          <h2 className="text-[clamp(28px,4vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
-            Friction when you need it. Not a cage.
-          </h2>
-          <p className="mx-auto mt-3.5 max-w-[60ch] text-lg text-gray-400">
-            Slash escalates as you approach your limit — enough resistance to
-            break the impulse, without locking you out of your own life.
-          </p>
-        </motion.div>
+      {/* ── The escalation ───────────────────────────────────────── */}
+      <Section className="py-16 sm:py-20">
+        <SectionHead
+          eyebrow="The mechanic"
+          title="Friction when you need it. Not a cage."
+          body="Slash escalates as you approach your limit — enough resistance to break the impulse, without locking you out of your own life."
+          centered
+        />
 
-        <motion.div {...fadeUp} className="mx-auto mb-11 max-w-[760px]">
-          <div className="h-3 overflow-hidden rounded-full bg-white/[0.06]">
-            <div
-              className="h-full w-full"
-              style={{
-                background:
-                  "linear-gradient(90deg, #34f0b5 0%, #34f0b5 30%, #ffc34a 55%, #ff5c8a 100%)",
-              }}
-            />
+        <Reveal delay={80} className="mx-auto mt-10 max-w-3xl">
+          <div className="h-2.5 overflow-hidden rounded-full bg-surface-2">
+            <div className="h-full w-full bg-[linear-gradient(90deg,#34f0b5_0%,#34f0b5_32%,#ffc34a_56%,#ff5c8a_100%)]" />
           </div>
-          <div className="mt-2.5 flex justify-between px-1 text-xs text-gray-500">
-            <span className="whitespace-nowrap">$0</span>
-            <span className="whitespace-nowrap">50% — soft</span>
-            <span className="whitespace-nowrap">100% — hard</span>
+          <div className="slash-mono mt-2.5 flex justify-between text-[10.5px] text-ink-3">
+            <span>$0</span>
+            <span className="text-amber">50% · SOFT</span>
+            <span className="text-coral">100% · HARD</span>
           </div>
-        </motion.div>
+        </Reveal>
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {[
-            {
-              cls: "bg-money",
-              tag: "Under · 0–50%",
-              tagCls: "text-money",
-              pct: "All clear",
-              pctCls: "text-money",
-              title: "Everything's open",
-              body: "Spend freely. Slash quietly tracks your shopping in the background and shows what's left.",
-              icon: ShieldCheck,
-            },
-            {
-              cls: "bg-warn",
-              tag: "Soft · 50%",
-              tagCls: "text-warn",
-              pct: "Blocked, not trapped",
-              pctCls: "text-warn",
-              title: "One-minute pause",
-              body: "Your apps lock. Really want in? Wait 60 seconds, then unlock for one hour. The delay is the point.",
-              icon: Clock,
-            },
-            {
-              cls: "bg-coral",
-              tag: "Hard · 100%",
-              tagCls: "text-coral",
-              pct: "The line",
-              pctCls: "text-coral",
-              title: "Locked until Sunday",
-              body: "Hit your limit and there's no override. Apps stay shielded until your week resets. The rule you set holds.",
-              icon: Lock,
-            },
-          ].map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <motion.div
-                key={s.tag}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
-                className="relative overflow-hidden rounded-[18px] border border-border bg-card p-6"
-              >
-                <div className={`absolute inset-x-0 top-0 h-[3px] ${s.cls}`} />
-                <Icon
-                  className={`absolute right-5 top-5 h-8 w-8 opacity-15 ${s.pctCls}`}
-                />
-                <div
-                  className={`mb-1.5 text-xs font-semibold uppercase tracking-[0.1em] ${s.tagCls}`}
-                >
-                  {s.tag}
-                </div>
-                <div className={`mb-2.5 text-3xl font-bold ${s.pctCls}`}>
-                  {s.pct}
-                </div>
-                <h4 className="mb-2 text-[17px] font-semibold">{s.title}</h4>
-                <p className="text-sm text-gray-400">{s.body}</p>
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Trust */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 py-24">
-        <motion.div {...fadeUp}>
-          <div className="mb-3.5 text-[12.5px] uppercase tracking-[0.16em] text-accent">
-            Built to be trusted with your money
-          </div>
-          <h2 className="text-[clamp(28px,4vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
-            A finance app that isn&rsquo;t mining you.
-          </h2>
-        </motion.div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {guarantees.map((g, i) => {
-            const Icon = g.icon;
-            return (
-              <motion.div
-                key={g.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 3) * 0.1, duration: 0.6 }}
-                className="rounded-2xl border border-border bg-white/[0.015] p-[22px]"
+          {tiers.map((t, i) => (
+            <Reveal
+              key={t.tag}
+              delay={i * 80}
+              className={`relative overflow-hidden rounded-xl border ${t.ring} bg-[image:var(--gradient-card)] p-6`}
+            >
+              <div className={`absolute inset-x-0 top-0 h-[3px] ${t.rail}`} />
+              <Micro className={t.accent}>{t.tag}</Micro>
+              <div
+                className={`slash-head mt-2.5 text-[26px] ${t.accent}`}
               >
-                <div className="mb-3 grid h-[38px] w-[38px] place-items-center rounded-[10px] bg-primary/10">
-                  <Icon className="h-[18px] w-[18px] text-primary" />
-                </div>
-                <h4 className="mb-1.5 text-[15.5px] font-semibold">{g.title}</h4>
-                <p className="text-[13.5px] text-gray-400">{g.body}</p>
-              </motion.div>
-            );
-          })}
+                {t.headline}
+              </div>
+              <h3 className="mt-4 font-display text-[16.5px] font-bold tracking-tight">
+                {t.title}
+              </h3>
+              <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
+                {t.body}
+              </p>
+            </Reveal>
+          ))}
         </div>
-        <p className="mt-[22px] text-sm text-gray-500">
-          Read the full{" "}
-          <a
-            href="/privacy"
-            className="text-primary underline underline-offset-2"
-          >
-            Privacy Policy
-          </a>{" "}
-          — plain language, no surprises.
-        </p>
-      </section>
+      </Section>
 
-      {/* Savings */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 py-24">
-        <motion.div {...fadeUp} className="text-center">
-          <div className="mb-3.5 text-[12.5px] uppercase tracking-[0.16em] text-money">
-            The payoff
+      {/* ── The payoff ───────────────────────────────────────────── */}
+      <Section className="py-16 sm:py-20">
+        <Reveal className="slash-card-raised relative overflow-hidden px-6 py-14 text-center sm:px-10">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(52,240,181,0.16),transparent_65%)]" />
+          <div className="relative">
+            <Micro className="text-money">The payoff · your vault</Micro>
+            <div className="slash-num mt-5 text-[clamp(56px,11vw,110px)] text-money">
+              $1,240
+            </div>
+            <p className="mx-auto mt-5 max-w-[46ch] text-[16px] leading-relaxed text-ink-2 sm:text-[17px]">
+              Every impulse you skip adds up. Slash keeps a running total of what
+              saying <Serif className="text-foreground">&ldquo;no&rdquo;</Serif>{" "}
+              has saved you.
+            </p>
           </div>
-          <div className="pb-2 text-[clamp(56px,10vw,104px)] font-bold leading-[1.22] tracking-[-0.03em] text-money">
-            $1,240
-          </div>
-          <p className="mx-auto mt-2 max-w-[46ch] text-lg text-gray-400">
-            Every impulse you skip adds up. Slash keeps a running total of what
-            saying &ldquo;no&rdquo; has saved you.
-          </p>
-        </motion.div>
-      </section>
+        </Reveal>
+      </Section>
 
-      {/* Final CTA */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 pb-4">
-        <motion.div
-          {...fadeUp}
-          className="rounded-[28px] border border-border px-7 py-16 text-center"
-          style={{
-            background:
-              "radial-gradient(120% 120% at 50% 0%, rgba(99,102,241,0.10), transparent 60%)",
-          }}
-        >
-          <h2 className="mb-3.5 text-[clamp(30px,4.4vw,46px)] font-bold leading-[1.12]">
-            Put a firewall on your spending.
-          </h2>
-          <p className="mb-7 text-lg text-gray-400">
-            Be first in line when Slash launches.
-          </p>
-          <div className="flex justify-center">
-            <WaitlistForm />
-          </div>
-          <div className="mt-5 text-[13.5px] text-gray-500">
-            iPhone · iOS 17+ · $2.99/mo · launching soon
-          </div>
-        </motion.div>
-      </section>
+      {/* ── Trust ────────────────────────────────────────────────── */}
+      <Section className="py-16 sm:py-20">
+        <SectionHead
+          eyebrow="Built to be trusted with your money"
+          title={
+            <>
+              A finance app that{" "}
+              <Serif className="gradient-text text-[1.1em]">
+                isn&rsquo;t mining you.
+              </Serif>
+            </>
+          }
+          body="Slash makes money from a subscription, not from you. Here's exactly what that means."
+          centered
+        />
 
-      {/* Footer */}
-      <footer className="relative z-10 mt-24 border-t border-white/5 px-6 py-9">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-gray-500">
-            © 2026 Slash. All rights reserved.
-          </p>
-          <div className="flex gap-6">
-            <a
-              href="/privacy"
-              className="text-sm text-gray-500 transition-colors hover:text-white"
-            >
-              Privacy
-            </a>
-            <a
-              href="/terms"
-              className="text-sm text-gray-500 transition-colors hover:text-white"
-            >
-              Terms
-            </a>
-            <a
-              href="https://www.linkedin.com/company/the-slash-app/"
-              className="text-sm text-gray-500 transition-colors hover:text-white"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="mailto:navya@theslash.app"
-              className="text-sm text-gray-500 transition-colors hover:text-white"
-            >
-              Contact
-            </a>
+        <div className="mt-12">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {guarantees.map((g, i) => {
+              const Icon = g.icon;
+              return (
+                <Reveal
+                  key={g.title}
+                  delay={(i % 3) * 70}
+                  className="slash-card p-5"
+                >
+                  <span className="mb-3.5 grid h-10 w-10 place-items-center rounded-sm bg-accent/10">
+                    <Icon className="h-[18px] w-[18px] text-accent" />
+                  </span>
+                  <h3 className="font-display text-[15px] font-bold tracking-tight">
+                    {g.title}
+                  </h3>
+                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-2">
+                    {g.body}
+                  </p>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          <Reveal delay={120}>
+            <p className="mt-7 text-center text-[14px] text-ink-3">
+              Read the full{" "}
+              <a
+                href="/privacy"
+                className="text-accent underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent"
+              >
+                Privacy Policy
+              </a>{" "}
+              — plain language, no surprises.
+            </p>
+          </Reveal>
+        </div>
+      </Section>
+
+      {/* ── Final CTA ────────────────────────────────────────────── */}
+      <Section className="pb-20 pt-6 sm:pb-28">
+        <Reveal className="relative overflow-hidden rounded-2xl border border-rule-strong bg-[image:var(--gradient-card)] px-6 py-16 text-center sm:px-10">
+          <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-[520px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,79,255,0.30),transparent_65%)]" />
+          <div className="relative flex flex-col items-center">
+            <Mark size={44} />
+            <h2 className="slash-head mt-6 text-[clamp(28px,4.8vw,46px)]">
+              Put a firewall on your spending.
+            </h2>
+            <p className="mt-4 text-[16px] text-ink-2 sm:text-[17px]">
+              Be first in line when Slash launches.
+            </p>
+            <div className="mt-8 flex w-full justify-center">
+              <WaitlistForm />
+            </div>
+            <p className="slash-mono mt-2 text-[11px] tracking-[0.06em] text-ink-3">
+              IPHONE · IOS 17+ · $2.99/MO · LAUNCHING SOON
+            </p>
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* ── Footer ───────────────────────────────────────────────── */}
+      <footer className="relative z-10 border-t border-rule">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-9 sm:flex-row sm:px-6">
+          <div className="flex items-center gap-2.5">
+            <Mark size={22} />
+            <p className="text-[13.5px] text-ink-3">
+              © 2026 Slash. All rights reserved.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            {[
+              ["Privacy", "/privacy"],
+              ["Terms", "/terms"],
+              ["LinkedIn", "https://www.linkedin.com/company/the-slash-app/"],
+              ["Contact", "mailto:navya@theslash.app"],
+            ].map(([label, href]) => (
+              <a
+                key={label}
+                href={href}
+                className="text-[13.5px] text-ink-3 transition-colors hover:text-foreground"
+              >
+                {label}
+              </a>
+            ))}
           </div>
         </div>
       </footer>

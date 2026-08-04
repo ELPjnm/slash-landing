@@ -37,7 +37,7 @@ export default function TermsOfUse() {
       <div className="mx-auto max-w-3xl px-6 py-16 sm:px-8 sm:py-20">
         <Link
           href="/"
-          className="mb-12 inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-white"
+          className="mb-12 inline-flex items-center gap-2 text-sm text-ink-3 transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to home
@@ -46,12 +46,12 @@ export default function TermsOfUse() {
         <h1 className="gradient-text mb-3 text-4xl font-bold italic sm:text-5xl">
           Slash Terms of Use
         </h1>
-        <p className="mb-10 text-sm text-gray-400">
-          <span className="font-semibold text-gray-300">Effective date:</span>{" "}
+        <p className="mb-10 text-sm text-ink-3">
+          <span className="font-semibold text-ink-2">Effective date:</span>{" "}
           <Placeholder>[EFFECTIVE DATE]</Placeholder>
         </p>
 
-        <div className="space-y-5 text-[1.0625rem] leading-relaxed text-gray-300">
+        <div className="space-y-5 text-[1.0625rem] leading-relaxed text-ink-2">
           <p>
             These Terms of Use ("Terms") are a legal agreement between you and{" "}
             <Placeholder>[LEGAL ENTITY]</Placeholder> ("Slash," "we," "us," or
@@ -90,11 +90,11 @@ export default function TermsOfUse() {
           <Section title="3. Subscriptions, billing, and cancellation">
             <p>
               Access to Slash requires an{" "}
-              <strong className="font-semibold text-white">
+              <strong className="font-semibold text-foreground">
                 auto-renewable subscription
               </strong>{" "}
               priced at{" "}
-              <strong className="font-semibold text-white">
+              <strong className="font-semibold text-foreground">
                 $2.99 per month
               </strong>{" "}
               (or the equivalent in your local currency, as shown in the app
@@ -103,7 +103,7 @@ export default function TermsOfUse() {
             <List>
               <li>
                 Your subscription is purchased through your{" "}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   Apple App Store account
                 </strong>
                 , and Apple processes all payments; we never receive your payment
@@ -111,7 +111,7 @@ export default function TermsOfUse() {
               </li>
               <li>
                 Your subscription{" "}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   automatically renews
                 </strong>{" "}
                 each month unless you cancel it at least 24 hours before the end
@@ -123,7 +123,7 @@ export default function TermsOfUse() {
               </li>
               <li>
                 You can{" "}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   manage or cancel
                 </strong>{" "}
                 your subscription at any time in your Apple account settings
@@ -153,7 +153,7 @@ export default function TermsOfUse() {
             <p>
               To measure your spending, you may connect a financial account
               through{" "}
-              <strong className="font-semibold text-white">Plaid Inc.</strong> By
+              <strong className="font-semibold text-foreground">Plaid Inc.</strong> By
               connecting an account, you authorize Slash and Plaid to access
               transaction information from that account for the purpose of
               operating the Service, as described in our{" "}
@@ -363,7 +363,7 @@ export default function TermsOfUse() {
               courts located there, unless applicable law requires otherwise.
             </p>
             <p>Questions about these Terms can be sent to:</p>
-            <p className="text-gray-300">
+            <p className="text-ink-2">
               <Placeholder>[LEGAL ENTITY]</Placeholder>
               <br />
               <Ext href="mailto:support@theslash.app">support@theslash.app</Ext>
@@ -371,8 +371,8 @@ export default function TermsOfUse() {
           </Section>
         </div>
 
-        <footer className="mt-16 border-t border-white/5 pt-8">
-          <p className="text-sm text-gray-500">
+        <footer className="mt-16 border-t border-rule pt-8">
+          <p className="text-sm text-ink-3">
             © 2025 Slash. All rights reserved.
           </p>
         </footer>
@@ -390,7 +390,7 @@ function Section({
 }) {
   return (
     <section className="pt-6">
-      <h2 className="mb-4 text-2xl font-semibold text-white">{title}</h2>
+      <h2 className="mb-4 text-2xl font-semibold text-foreground">{title}</h2>
       <div className="space-y-5">{children}</div>
     </section>
   );
@@ -398,7 +398,7 @@ function Section({
 
 function SubHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="pt-1 text-lg font-semibold text-white/90">{children}</h3>
+    <h3 className="pt-1 text-lg font-semibold text-foreground">{children}</h3>
   );
 }
 
