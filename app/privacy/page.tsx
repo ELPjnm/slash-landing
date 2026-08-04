@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
       <div className="mx-auto max-w-3xl px-6 py-16 sm:px-8 sm:py-20">
         <Link
           href="/"
-          className="mb-12 inline-flex items-center gap-2 text-sm text-gray-500 transition-colors hover:text-white"
+          className="mb-12 inline-flex items-center gap-2 text-sm text-ink-3 transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to home
@@ -46,12 +46,12 @@ export default function PrivacyPolicy() {
         <h1 className="gradient-text mb-3 text-4xl font-bold italic sm:text-5xl">
           Slash Privacy Policy
         </h1>
-        <p className="mb-10 text-sm text-gray-400">
-          <span className="font-semibold text-gray-300">Effective date:</span>{" "}
+        <p className="mb-10 text-sm text-ink-3">
+          <span className="font-semibold text-ink-2">Effective date:</span>{" "}
           <Placeholder>[EFFECTIVE DATE]</Placeholder>
         </p>
 
-        <div className="space-y-5 text-[1.0625rem] leading-relaxed text-gray-300">
+        <div className="space-y-5 text-[1.0625rem] leading-relaxed text-ink-2">
           <p>
             Slash is a personal financial-wellness app that helps you stay
             within a spending limit you set for yourself. When you exceed that
@@ -75,11 +75,11 @@ export default function PrivacyPolicy() {
             <SubHeading>Account information</SubHeading>
             <p>
               When you create an account, we collect your{" "}
-              <strong className="font-semibold text-white">email address</strong>{" "}
+              <strong className="font-semibold text-foreground">email address</strong>{" "}
               and an authentication credential (your password is never stored by
               us in readable form; it is handled by our authentication provider,
               Supabase). We may also collect your{" "}
-              <strong className="font-semibold text-white">name</strong> where it
+              <strong className="font-semibold text-foreground">name</strong> where it
               is provided to us in connection with your account or bank
               connection.
             </p>
@@ -87,21 +87,21 @@ export default function PrivacyPolicy() {
             <SubHeading>Financial information (through Plaid)</SubHeading>
             <p>
               To detect your spending, Slash connects to your bank through{" "}
-              <strong className="font-semibold text-white">Plaid Inc.</strong>, a
+              <strong className="font-semibold text-foreground">Plaid Inc.</strong>, a
               third-party financial data provider. When you link a bank, Plaid
               provides us with:
             </p>
             <List>
               <li>
                 the{" "}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   name of your financial institution
                 </strong>{" "}
                 and identifiers for the connected accounts;
               </li>
               <li>
                 your{" "}
-                <strong className="font-semibold text-white">transactions</strong>
+                <strong className="font-semibold text-foreground">transactions</strong>
                 , including the amount, date, merchant or description, and
                 category of each transaction.
               </li>
@@ -111,7 +111,7 @@ export default function PrivacyPolicy() {
               during the current period and to compare it against your limit.
               Plaid provides us with a secure access token that lets us retrieve
               your transactions; we store that token in{" "}
-              <strong className="font-semibold text-white">encrypted</strong> form
+              <strong className="font-semibold text-foreground">encrypted</strong> form
               and never expose it to the app or any third party. We do not receive
               or store your online banking username or password — you enter those
               directly with Plaid. Plaid's handling of your information is
@@ -129,7 +129,7 @@ export default function PrivacyPolicy() {
             <p>
               Slash offers an auto-renewable subscription that is purchased and
               managed through{" "}
-              <strong className="font-semibold text-white">Apple</strong>. Apple
+              <strong className="font-semibold text-foreground">Apple</strong>. Apple
               processes your payment; we never receive your credit card or payment
               details. We receive from Apple your subscription status (for
               example, whether your subscription is active) so we can provide the
@@ -139,13 +139,13 @@ export default function PrivacyPolicy() {
             <SubHeading>Information that stays on your device</SubHeading>
             <p>
               The selection of{" "}
-              <strong className="font-semibold text-white">
+              <strong className="font-semibold text-foreground">
                 which apps you choose to block
               </strong>{" "}
               is made through Apple's system Family Activity picker and is stored
               only on your device. Because of how Apple's Screen Time framework is
               designed, this selection and your app-usage data are{" "}
-              <strong className="font-semibold text-white">
+              <strong className="font-semibold text-foreground">
                 never transmitted to us
               </strong>{" "}
               and are not accessible to us or to any third party. Slash also
@@ -197,27 +197,27 @@ export default function PrivacyPolicy() {
             <List>
               <li>
                 to{" "}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   perform our contract
                 </strong>{" "}
                 with you (providing the app's core spending-monitoring and
                 blocking features, and your subscription);
               </li>
               <li>
-                your <strong className="font-semibold text-white">consent</strong>{" "}
+                your <strong className="font-semibold text-foreground">consent</strong>{" "}
                 (for example, when you choose to connect a bank account), which
                 you may withdraw at any time by disconnecting the bank or deleting
                 your account;
               </li>
               <li>
                 our{" "}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   legitimate interests
                 </strong>{" "}
                 in securing the service and preventing abuse;
               </li>
               <li>
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-foreground">
                   compliance with legal obligations
                 </strong>
                 .
@@ -234,12 +234,12 @@ export default function PrivacyPolicy() {
             </p>
             <List>
               <li>
-                <strong className="font-semibold text-white">Plaid</strong> —
+                <strong className="font-semibold text-foreground">Plaid</strong> —
                 connects to your bank and provides transaction data. See{" "}
                 <Ext href="https://plaid.com/legal/">plaid.com/legal</Ext>.
               </li>
               <li>
-                <strong className="font-semibold text-white">Supabase</strong> —
+                <strong className="font-semibold text-foreground">Supabase</strong> —
                 provides authentication and database hosting for your account,
                 settings, and transaction records. See{" "}
                 <Ext href="https://supabase.com/privacy">
@@ -248,7 +248,7 @@ export default function PrivacyPolicy() {
                 .
               </li>
               <li>
-                <strong className="font-semibold text-white">Railway</strong> —
+                <strong className="font-semibold text-foreground">Railway</strong> —
                 hosts our backend server infrastructure. See{" "}
                 <Ext href="https://railway.app/legal/privacy">
                   railway.app/legal/privacy
@@ -256,7 +256,7 @@ export default function PrivacyPolicy() {
                 .
               </li>
               <li>
-                <strong className="font-semibold text-white">Apple</strong> —
+                <strong className="font-semibold text-foreground">Apple</strong> —
                 processes your subscription purchases and operates the App Store
                 and Screen Time technology. See{" "}
                 <Ext href="https://www.apple.com/legal/privacy/">
@@ -379,7 +379,7 @@ export default function PrivacyPolicy() {
               If you have questions about this Privacy Policy or how we handle
               your information, contact us at:
             </p>
-            <p className="text-gray-300">
+            <p className="text-ink-2">
               <Placeholder>[LEGAL ENTITY]</Placeholder>
               <br />
               <Ext href="mailto:privacy@theslash.app">privacy@theslash.app</Ext>
@@ -392,8 +392,8 @@ export default function PrivacyPolicy() {
           </Section>
         </div>
 
-        <footer className="mt-16 border-t border-white/5 pt-8">
-          <p className="text-sm text-gray-500">
+        <footer className="mt-16 border-t border-rule pt-8">
+          <p className="text-sm text-ink-3">
             © 2025 Slash. All rights reserved.
           </p>
         </footer>
@@ -411,7 +411,7 @@ function Section({
 }) {
   return (
     <section className="pt-6">
-      <h2 className="mb-4 text-2xl font-semibold text-white">{title}</h2>
+      <h2 className="mb-4 text-2xl font-semibold text-foreground">{title}</h2>
       <div className="space-y-5">{children}</div>
     </section>
   );
@@ -419,7 +419,7 @@ function Section({
 
 function SubHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="pt-1 text-lg font-semibold text-white/90">{children}</h3>
+    <h3 className="pt-1 text-lg font-semibold text-foreground">{children}</h3>
   );
 }
 

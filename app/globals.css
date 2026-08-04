@@ -1,78 +1,224 @@
 @import "tailwindcss";
 
+/* ============================================================
+   SLASH — landing design tokens.
+
+   Mirrors the iOS app's "Badge" design language, extracted from
+   ios/design-reference/Design (flow-b/slash-tokens.css for the type
+   and radius scale, slash-badge/c-base.jsx for the dark palette that
+   the shipping app actually renders).
+
+   Everything on this page should reference these tokens rather than
+   hardcoding a hex, so the site stays in step with the app.
+   ============================================================ */
+
 @theme {
-  --font-family-sans: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
+  /* ── Type families ─────────────────────────────────────────
+     Inter carries body copy, Space Grotesk carries display and
+     numerals, Instrument Serif is the one italic moment per
+     screen, JetBrains Mono labels numeric badges. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Color System - mirrors the iOS app's SlashTheme (Badge palette, always-dark) */
+  /* ── Base surfaces (C.bg / bg2 / bg3) ──────────────────── */
   --color-background: #0e0b22;
+  --color-surface: #181333;
+  --color-surface-2: #221b45;
+
+  /* ── Ink ramp (C.ink / ink2 / ink3 / ink4) ─────────────── */
   --color-foreground: #fbfafe;
+  --color-ink-2: #c7c0e6;
+  --color-ink-3: #8b82b8;
+  --color-ink-4: #5a527f;
 
-  /* Purple - primary brand accent */
-  --color-primary: #7a4fff;
-  --color-primary-foreground: #ffffff;
+  /* ── Rules (C.rule / ruleStrong) ───────────────────────── */
+  --color-rule: rgba(255, 255, 255, 0.08);
+  --color-rule-strong: rgba(255, 255, 255, 0.16);
 
-  --color-secondary: #b388ff;
-  --color-secondary-foreground: #ffffff;
-
-  --color-accent: #b388ff;
-  --color-accent-foreground: #ffffff;
-
-  /* Money / positive - shared with the app for spend/savings figures */
-  --color-money: #34f0b5;
-
-  /* State colors from the app: soft = amber, hard = coral */
-  --color-warn: #ffc34a;
+  /* ── Accents ───────────────────────────────────────────── */
+  --color-primary: #7a4fff; /* C.purpleDeep */
+  --color-accent: #b388ff; /* C.purple */
+  --color-money: #34f0b5; /* C.green */
+  --color-money-deep: #0ba876; /* C.greenDeep */
   --color-coral: #ff5c8a;
+  --color-amber: #ffc34a;
 
-  --color-muted: #181333;
-  --color-muted-foreground: #8b82b8;
-
+  /* ── shadcn/Radix compatibility aliases ────────────────── */
+  --color-primary-foreground: #0e0b22;
+  --color-secondary: #b388ff;
+  --color-secondary-foreground: #0e0b22;
+  --color-accent-foreground: #0e0b22;
   --color-card: #181333;
   --color-card-foreground: #fbfafe;
-
-  --color-border: #2a2352;
-  --color-input: #2a2352;
-  --color-ring: #7a4fff;
-
+  --color-muted: #221b45;
+  --color-muted-foreground: #8b82b8;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-input: rgba(255, 255, 255, 0.16);
+  --color-ring: #b388ff;
   --color-destructive: #ff5c8a;
-  --color-destructive-foreground: #ffffff;
+  --color-destructive-foreground: #0e0b22;
+  --color-warn: #ffc34a;
 
-  --radius: 0.75rem;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* ── Radii (slash-tokens.css) ──────────────────────────── */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+
+  /* ── Ambient shadows ───────────────────────────────────── */
+  --shadow-tile: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --shadow-device: 0 60px 120px -30px rgba(0, 0, 0, 0.75), 0 0 90px rgba(122, 79, 255, 0.16);
+  --shadow-cta: 0 10px 30px -8px rgba(122, 79, 255, 0.55);
 }
 
+@theme inline {
+  /* Gradients reused across the page — the app's canonical pairs. */
+  --gradient-purple: linear-gradient(135deg, #b388ff, #7a4fff);
+  --gradient-green: linear-gradient(135deg, #6dffd2, #19d58e);
+  --gradient-coral: linear-gradient(135deg, #ff7ba0, #e63e70);
+  --gradient-app-bg: linear-gradient(170deg, #14102e 0%, #0e0b22 70%);
+  --gradient-card: linear-gradient(165deg, #221b45, #181333);
+}
+
+/* Tailwind v4 defaults borders to currentColor; the app's hairline
+   is a white alpha rule, so set it globally. */
 * {
-  border-color: var(--color-border);
+  border-color: var(--color-rule);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  /* Smooth base gradient from the app (bgGrad: #14102E -> #0E0B22) */
-  background: linear-gradient(160deg, #14102e 0%, #0e0b22 55%);
+  background: var(--gradient-app-bg) fixed;
   background-color: var(--color-background);
-  background-attachment: fixed;
   color: var(--color-foreground);
+  font-family: var(--font-sans);
+  letter-spacing: -0.005em;
   font-feature-settings: "rlig" 1, "calt" 1;
+  /* This is an iPhone product: never let a section push the page sideways. */
+  overflow-x: hidden;
 }
 
-/* Glassmorphism effect */
-.glass-card {
-  background: rgba(24, 19, 51, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(179, 136, 255, 0.2);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
-/* Glow effect */
-.glow {
-  box-shadow: 0 0 20px rgba(122, 79, 255, 0.3), 0 0 40px rgba(179, 136, 255, 0.2);
+/* ── Type roles, matching the app's component primitives ─────
+   .slash-micro  → CMicro  (uppercase 0.18em tracking eyebrow)
+   .slash-head   → CHead   (Space Grotesk, tight tracking)
+   .slash-num    → CNum    (tabular display numerals)
+   .slash-serif  → CSerif  (the italic serif moment) */
+
+.slash-micro {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.4;
 }
 
-/* Gradient text - smooth purple (app purpleGrad family) */
+.slash-head {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: pretty;
+}
+
+.slash-num {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.slash-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.slash-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Gradient-clipped purple text — the app's purpleGrad on type. */
 .gradient-text {
-  background: linear-gradient(135deg, #c9a9ff 0%, #9b6bff 50%, #7a4fff 100%);
+  background: var(--gradient-purple);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-text-green {
+  background: var(--gradient-green);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Standard card surface — C.bg2 with a hairline rule. */
+.slash-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+}
+
+/* Elevated card — the gradient bg3→bg2 used for hero cards in-app. */
+.slash-card-raised {
+  background: var(--gradient-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xl);
+}
+
+/* Scroll reveal — driven by components/slash/reveal.tsx.
+
+   Visible is the default state: only `data-reveal="hidden"` takes content
+   away, and the client sets that after hydration for off-screen elements
+   only. Server HTML, no-JS visits, and crawlers therefore always see the
+   full page. */
+.slash-reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.slash-reveal[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slash-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+::selection {
+  background: rgba(179, 136, 255, 0.32);
+  color: #fbfafe;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }

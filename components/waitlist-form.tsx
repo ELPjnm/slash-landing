@@ -3,12 +3,16 @@
 import type React from "react";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { joinWaitlist } from "@/app/actions/waitlist";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-export function WaitlistForm() {
+/**
+ * Waitlist capture — the page's conversion goal.
+ *
+ * Styled after the app's `CCTA`: pill button, purple gradient, base-navy
+ * label. Submission goes through the `joinWaitlist` server action.
+ */
+export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
@@ -37,40 +41,40 @@ export function WaitlistForm() {
   };
 
   return (
-    <motion.form
-      onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row gap-3 w-full max-w-md relative"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.6 }}
-    >
-      <Input
-        type="email"
-        placeholder="you@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        disabled={status === "loading"}
-        className="flex-1 h-12 rounded-xl bg-white/5 border-white/10 focus:border-primary transition-colors text-white placeholder:text-white/40 backdrop-blur-sm"
-      />
-      <Button
-        type="submit"
-        disabled={status === "loading"}
-        className="h-12 rounded-xl px-6 font-semibold text-white border-0 bg-gradient-to-br from-primary to-secondary shadow-[0_8px_30px_rgba(99,102,241,0.35)] hover:opacity-90 transition-all duration-300"
-      >
-        {status === "loading" ? "Joining..." : "Join waitlist"}
-      </Button>
-      {message && (
-        <motion.p
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`text-sm ${
-            status === "success" ? "text-green-400" : "text-red-400"
-          } absolute -bottom-8 left-0 w-full text-center`}
+    <form onSubmit={handleSubmit} className={cn("w-full max-w-md", className)}>
+      <div className="flex flex-col gap-2.5 sm:flex-row">
+        <label htmlFor="waitlist-email" className="sr-only">
+          Email address
+        </label>
+        <input
+          id="waitlist-email"
+          type="email"
+          placeholder="you@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={status === "loading"}
+          className="h-12 min-w-0 flex-1 rounded-full border border-rule-strong bg-surface px-5 text-[15px] text-foreground transition-colors placeholder:text-ink-4 hover:border-accent/40 focus:border-accent focus:outline-none disabled:opacity-60"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="h-12 flex-none rounded-full bg-[image:var(--gradient-purple)] px-7 font-display text-[15px] font-bold tracking-tight text-background shadow-cta transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {message}
-        </motion.p>
-      )}
-    </motion.form>
+          {status === "loading" ? "Joining…" : "Join waitlist"}
+        </button>
+      </div>
+      <p
+        role="status"
+        aria-live="polite"
+        className={cn(
+          "mt-2.5 min-h-[1.25rem] text-[13px] transition-opacity",
+          status === "success" ? "text-money" : "text-coral",
+          message ? "opacity-100" : "opacity-0"
+        )}
+      >
+        {message || " "}
+      </p>
+    </form>
   );
 }
