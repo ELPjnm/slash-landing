@@ -8,33 +8,41 @@ The marketing site for **theslash.app**, an unreleased iPhone spending-firewall 
 Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
 The whole public surface is `app/page.tsx` plus `/privacy` and `/terms`.
 
-Keep copy truthful to an unreleased product; do not invent claims the app and the design reference do not already make.
+Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
 
 ## Design source of truth
 
-The site's look is derived from the iOS app, not authored independently.
-The app ships its own design reference at `/Users/jxschraut/firstmate/projects/slash/ios/design-reference/Design/` — a **different clone, read-only, never modify it**:
+The site's look is derived from the shipping iOS app, not authored independently.
+The only valid sources are the app's own Swift and real captures of it:
 
-- `slash-badge/c-base.jsx` — the dark "Badge" palette and type primitives the site actually mirrors (`CMark`, `CMicro`, `CSerif`, `CHead`, `CNum`, `CCTA`).
-- `slash-badge/c-home.jsx` — the home screen the hero phone mockup reproduces.
-- `BlockShield.jsx` / `components/BlockTiers.jsx` — the block-screen shield icons and overlay gradients.
-- `flow-b/slash-tokens.css` — radius and type scales.
+- `/Users/jxschraut/firstmate/projects/slash/ios/spending-control-iOS-app/Shared/SlashTheme.swift` — the palette and type scale, verbatim. A **different clone, read-only, never modify it**.
+- `Features/Home/HomeView.swift:342-399` in that clone — the spending-meter ruleset that `Meter` in `components/slash/phone.tsx` reproduces.
+- `/Users/jxschraut/firstmate/data/slash-current-screens-x5/` — 22 simulator captures of the shipping app plus a written design report. The seven the page uses are committed, downscaled, at `public/app/*.jpg`.
 
-When the app's design moves, re-derive `app/globals.css` from these rather than hand-tuning hexes in components.
+**`ios/design-reference/Design/**` is dead and must not be used.**
+Those React/HTML prototypes never shipped: they define a green/amber/coral traffic light (`--slash-green-300`, `--slash-orange-400`) and a `#0D0D0D` canvas, none of which exist in the app.
+A landing page rebuilt from them shipped once and had to be reverted.
+
+**One chromatic voice.** Signal Purple `#B388FF` at three intensities on the `#0E0B22` canvas, with the `#FBFAFE`→`#5A527F` ink ramp carrying all structure.
+Under / halfway / over are tones of that one hue plus the breach-and-hatch furniture, never a hue swap.
+Introducing a green, amber, teal, or coral for "good" or "bad" is off-brand.
 
 ## Token conventions
 
 `app/globals.css` is the only place colors, fonts, radii, and gradients are defined, via Tailwind v4 `@theme`.
-Sections reference tokens (`text-ink-2`, `bg-surface`, `border-rule`, `bg-[image:var(--gradient-purple)]`) rather than raw hexes.
+Sections reference tokens (`text-ink-2`, `bg-surface`, `border-rule`, `bg-[image:var(--gradient-accent)]`) rather than raw hexes.
 
-Four font families are wired in `app/layout.tsx` and each has a job, matching the app:
-Inter (body), Space Grotesk (display + numerals), Instrument Serif (one italic moment per section), JetBrains Mono (numeric badges).
+Three font families are wired in `app/layout.tsx` and each has a job, matching the app:
+Inter (body and UI), Space Grotesk SemiBold (display and money), JetBrains Mono (uppercase eyebrows and inline numbers).
+The app renders **no serif and no italic**, and neither does the site.
+Headlines are sentence case with a terminal period; that full stop is the app's voice tic.
 
-The app motifs live in `components/slash/` — the `/` mark, shield icons, the streak/progress ring, the phone frame and its screens. Reuse those rather than redrawing them.
+The app motifs live in `components/slash/` — the `/` mark, the shield glyph, the meter, the Access ring, and the phone frame. Reuse those rather than redrawing them.
 
 ## Sharp edges
 
 - **Scroll reveals must never gate visibility on JS.** `components/slash/reveal.tsx` renders visible by default and only hides off-screen elements after hydration, and it reveals by scroll position rather than `IntersectionObserver`. An observer never fires for elements skipped by an instant jump (anchor links, restored scroll, scripted scrolling), which previously left whole mid-page sections stranded at `opacity: 0` in screenshots and for crawlers. Do not "simplify" this back to `whileInView`.
+- **The phone mockups frame real captures, and draw their own status bar.** `PhoneShot` hides the top 170px of each capture behind a redrawn iOS status bar, because the simulator shots were taken charging and carry a green battery glyph that is not in the palette. All its internal metrics are container-query units, so the frame stays in proportion while shrinking to fit narrow viewports. Do not swap in fabricated app UI, and do not give the frame a fixed pixel width.
 - **Full-page screenshots need a scroll-through first**, and at DPR 2 the capture tool can stitch a spurious repeat of the top of the page past the document end. Verify against `document.body.scrollHeight` before believing a duplicate is real.
 - **`npm run lint` is broken** and predates the current work: ESLint 9 wants a flat `eslint.config.*` but the repo has `.eslintrc.json`. `npm run build` reports the same error and still succeeds. Typecheck with `npx tsc --noEmit`.
 - The waitlist server action (`app/actions/waitlist.ts`) needs `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Without them locally the form still round-trips and renders its error state, so a failed submit locally is expected, not a regression.

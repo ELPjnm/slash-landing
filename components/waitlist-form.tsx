@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 /**
  * Waitlist capture — the page's conversion goal.
  *
- * Styled after the app's `CCTA`: pill button, purple gradient, base-navy
- * label. Submission goes through the `joinWaitlist` server action.
+ * Styled after the app's primary CTA: full capsule, `accentGrad` fill, and
+ * an `accentInk` label. Submission goes through the `joinWaitlist` action.
  */
 export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
@@ -59,7 +59,7 @@ export function WaitlistForm({ className }: { className?: string }) {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="h-12 flex-none rounded-full bg-[image:var(--gradient-purple)] px-7 font-display text-[15px] font-bold tracking-tight text-background shadow-cta transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-12 flex-none rounded-full bg-[image:var(--gradient-accent)] px-7 font-display text-[15px] font-semibold tracking-tight text-accent-ink shadow-cta transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {status === "loading" ? "Joining…" : "Join waitlist"}
         </button>
@@ -68,8 +68,10 @@ export function WaitlistForm({ className }: { className?: string }) {
         role="status"
         aria-live="polite"
         className={cn(
+          // One hue: success and error are tones of the accent, not a
+          // green/red pair. Emphasis comes from weight, not from a new colour.
           "mt-2.5 min-h-[1.25rem] text-[13px] transition-opacity",
-          status === "success" ? "text-money" : "text-coral",
+          status === "success" ? "text-accent" : "text-accent-strong",
           message ? "opacity-100" : "opacity-0"
         )}
       >

@@ -1,468 +1,383 @@
-import type { ReactNode } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Mark, Micro, Serif, ShieldDeep, ShieldTimeout } from "./marks";
 
-/* ── Device frame ────────────────────────────────────────────────────────
-   Navy-on-navy, matching the app's own base rather than a generic black
-   handset. The inner canvas uses C.bgGrad exactly. */
+/* ── Device frame ─────────────────────────────────────────────────────────
 
-export function Phone({
-  children,
+   The mockups on this page are real captures of the shipping iOS app
+   (public/app/*.jpg, 1206×2622 @3x from an iPhone 17 Pro). Nothing in the
+   app canvas is redrawn.
+
+   The only chrome the frame supplies itself is the iOS status bar: the
+   captures were taken on a charging simulator, so their status bar carries
+   a green battery glyph that is not part of Slash's palette. The frame
+   hides that top strip behind its own neutral status bar instead. */
+
+/** Natural pixel size of every capture in public/app. */
+const SHOT_W = 1206;
+const SHOT_H = 2622;
+/** Rows of the capture covered by the frame's own status bar. */
+const CROP_TOP = 170;
+
+const STRIP_PCT = (CROP_TOP / SHOT_H) * 100; // of screen height
+const SHOT_SHIFT_PCT = -(CROP_TOP / (SHOT_H - CROP_TOP)) * 100; // of viewport height
+
+export type Shot =
+  | "home-under"
+  | "home-healthy"
+  | "home-over"
+  | "home-healthy-scrolled"
+  | "access-hard"
+  | "override-idle"
+  | "override-counting";
+
+/** Bezel thickness as a fraction of the outer device width. */
+const BEZEL = 0.032;
+/** Everything inside the frame is sized against the screen, not the device. */
+const S = 1 - BEZEL * 2;
+/** `n` as a fraction of the screen, expressed in container-width units. */
+const cq = (n: number) => `${(n * S * 100).toFixed(3)}cqw`;
+
+/**
+ * An iPhone showing one of the real app captures.
+ *
+ * `width` is the device's natural width; the frame is fluid below that, so it
+ * can never push a narrow viewport sideways. Every internal measurement is in
+ * container-width units, which keeps the drawn status bar in proportion at any
+ * size — the 320px hero phone and the 214px three-up use the same component.
+ */
+export function PhoneShot({
+  shot,
+  alt,
+  width = 310,
+  priority,
   className,
 }: {
-  children: ReactNode;
+  shot: Shot;
+  alt: string;
+  width?: number;
+  priority?: boolean;
   className?: string;
 }) {
   return (
+    // The container-query context. Container units never resolve against the
+    // element that establishes them, so the frame itself has to be a child.
     <div
-      className={cn(
-        "w-[290px] flex-none rounded-[46px] border border-rule-strong p-[10px] shadow-device sm:w-[310px]",
-        "bg-[linear-gradient(165deg,#2f2760_0%,#171233_55%,#0e0b22_100%)]",
-        className
-      )}
+      className={cn("min-w-0", className)}
+      style={{ width: "100%", maxWidth: width, containerType: "inline-size" }}
     >
-      <div className="relative aspect-[290/622] overflow-hidden rounded-[37px] bg-[image:var(--gradient-app-bg)]">
-        {children}
+      <div
+        className={cn(
+          "border border-rule-strong shadow-device",
+          "bg-[linear-gradient(165deg,#2f2760_0%,#171233_55%,#0e0b22_100%)]"
+        )}
+        style={{
+          padding: `${BEZEL * 100}cqw`,
+          borderRadius: "14.8cqw",
+        }}
+      >
+        <div
+          className="relative overflow-hidden bg-[image:var(--gradient-app-bg)]"
+          style={{
+            aspectRatio: `${SHOT_W} / ${SHOT_H}`,
+            borderRadius: "12cqw",
+          }}
+        >
+          {/* Capture, pushed up so its own status bar sits out of frame. */}
+          <div
+            className="absolute inset-x-0 bottom-0 overflow-hidden"
+            style={{ top: `${STRIP_PCT}%` }}
+          >
+            <Image
+              src={`/app/${shot}.jpg`}
+              alt={alt}
+              width={SHOT_W}
+              height={SHOT_H}
+              priority={priority}
+              sizes={`(max-width: 640px) 90vw, ${width}px`}
+              className="absolute left-0 w-full max-w-none"
+              style={{ top: `${SHOT_SHIFT_PCT}%` }}
+            />
+          </div>
+
+          <StatusBar />
+        </div>
       </div>
     </div>
   );
 }
 
-/** Status bar — the app renders inside the notch inset. */
+/** iOS status bar, redrawn in the app's ink so no foreign hue leaks in. */
 function StatusBar() {
   return (
-    <div className="flex items-center justify-between px-[18px] pt-3 text-[11px] text-foreground">
-      <span className="font-display font-bold tracking-tight">9:41</span>
-      <span className="flex items-center gap-[3px]" aria-hidden>
-        <span className="flex items-end gap-[2px]">
-          {[4, 6, 8, 10].map((h) => (
+    <div
+      className="absolute inset-x-0 top-0 flex items-center justify-between"
+      style={{
+        height: cq(CROP_TOP / SHOT_W),
+        paddingLeft: cq(0.1),
+        paddingRight: cq(0.085),
+      }}
+      aria-hidden
+    >
+      <span
+        className="font-sans font-semibold text-foreground"
+        style={{ fontSize: cq(0.042), letterSpacing: "-0.01em" }}
+      >
+        9:41
+      </span>
+
+      {/* Dynamic Island */}
+      <span
+        className="absolute rounded-full bg-black"
+        style={{
+          width: cq(0.313),
+          height: cq(0.077),
+          top: cq(0.043),
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      />
+
+      <span
+        className="flex items-end text-foreground"
+        style={{ gap: cq(0.02) }}
+      >
+        {/* Cellular */}
+        <span className="flex items-end" style={{ gap: cq(0.005) }}>
+          {[0.4, 0.6, 0.8, 1].map((h) => (
             <span
               key={h}
-              className="w-[2.5px] rounded-[1px] bg-foreground"
-              style={{ height: h }}
+              className="rounded-[1px] bg-current"
+              style={{ width: cq(0.009), height: cq(0.031 * h) }}
             />
           ))}
         </span>
-        <span className="ml-1 h-[10px] w-[18px] rounded-[3px] border border-ink-3 p-[1.5px]">
-          <span className="block h-full w-3/4 rounded-[1px] bg-foreground" />
+        {/* Wi-Fi */}
+        <svg
+          style={{ width: cq(0.045), height: cq(0.033) }}
+          viewBox="0 0 16 12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        >
+          <path d="M1 4.2a10 10 0 0 1 14 0" />
+          <path d="M3.6 6.9a6.3 6.3 0 0 1 8.8 0" />
+          <path d="M6.2 9.5a2.6 2.6 0 0 1 3.6 0" />
+        </svg>
+        {/* Battery — ink, not the simulator's charging green */}
+        <span
+          className="relative rounded-[3px] border border-current"
+          style={{
+            width: cq(0.068),
+            height: cq(0.034),
+            padding: cq(0.005),
+            opacity: 0.9,
+          }}
+        >
+          <span className="block h-full w-4/5 rounded-[1px] bg-current" />
         </span>
       </span>
     </div>
   );
 }
 
-/** Home header — `CHomeHead`: mark, greeting, and the state pill. */
-function HomeHeader({
-  greeting,
-  sub,
-  status,
-  tone,
+/* ── The meter ────────────────────────────────────────────────────────────
+
+   The app's signature motif, transcribed from HomeView.swift:342-399. One
+   hue throughout: the state is carried by fill length, bar weight, and the
+   breach + hatch furniture — never by a second colour.
+
+     under     6pt bar, accentDim fill, no tick
+     halfway   8pt bar, full accent fill, 50% tick in ink3
+     over      9pt bar, full accent fill with a glow, a breach marker at the
+               cap, and a detached diagonal-hatched overflow capsule past it
+*/
+
+export function Meter({
+  state,
+  pct,
+  size,
+  className,
 }: {
-  greeting: string;
-  sub: string;
-  status: string;
-  tone: "money" | "amber" | "coral";
-}) {
-  const dot = {
-    money: "bg-money",
-    amber: "bg-amber",
-    coral: "bg-coral",
-  }[tone];
-
-  return (
-    <div className="flex items-center justify-between gap-2 px-[18px] pt-4">
-      <div className="flex min-w-0 items-center gap-2.5">
-        <Mark size={22} />
-        <div className="min-w-0">
-          <div className="truncate font-display text-[13.5px] font-bold tracking-tight">
-            {greeting}
-          </div>
-          <div className="truncate text-[11px] text-ink-3">{sub}</div>
-        </div>
-      </div>
-      <div className="flex flex-none items-center gap-1.5 rounded-full border border-rule bg-surface px-2.5 py-1.5">
-        <span className={cn("h-[6px] w-[6px] rounded-full", dot)} />
-        <span className="slash-micro text-[8.5px] text-ink-2">{status}</span>
-      </div>
-    </div>
-  );
-}
-
-/** Tab bar — `CTabBar`. */
-function TabBar() {
-  const tabs: [string, string][] = [
-    ["Home", "M3 12l9-9 9 9v9a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"],
-    [
-      "Vault",
-      "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM9 12a3 3 0 1 0 6 0 3 3 0 0 0-6 0z",
-    ],
-    ["Rules", "M4 6h16M4 12h10M4 18h16"],
-    ["You", "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 9c0-3.87 3.13-7 7-7s7 3.13 7 7"],
-  ];
-
-  return (
-    <div className="absolute inset-x-0 bottom-0 flex justify-around border-t border-rule bg-background/90 pb-4 pt-2.5 backdrop-blur-sm">
-      {tabs.map(([label, d], i) => (
-        <div key={label} className="flex flex-col items-center gap-1">
-          <svg
-            width="19"
-            height="19"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={i === 0 ? "#b388ff" : "#8b82b8"}
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <path d={d} />
-          </svg>
-          <span
-            className={cn(
-              "text-[8.5px] font-bold",
-              i === 0 ? "text-accent" : "text-ink-3"
-            )}
-          >
-            {label}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/**
- * The streak ring — `CStreakBadge`. A serif numeral inside a green
- * progress ring with a soft aura. This is the app's signature element.
- */
-export function StreakRing({
-  value,
-  label,
-  size = 112,
-  tone = "money",
-  /** Fraction of the ring that is filled, 0–1. */
-  progress = 1,
-  /**
-   * The app reserves Instrument Serif for the streak count — one serif
-   * moment per screen. Money keeps Space Grotesk's tabular numerals.
-   */
-  numerals = "serif",
-}: {
-  value: ReactNode;
-  label: string;
+  state: "under" | "halfway" | "over";
+  /** Fill length as a percentage of the cap. Ignored when over. */
+  pct?: number;
+  /** Bar height in px. Defaults to the app's 6 / 8 / 9. */
   size?: number;
-  tone?: "money" | "coral" | "accent";
-  progress?: number;
-  numerals?: "serif" | "display";
+  className?: string;
 }) {
-  const stroke = { money: "#34f0b5", coral: "#ff5c8a", accent: "#b388ff" }[tone];
-  const text = {
-    money: "text-money",
-    coral: "text-coral",
-    accent: "text-accent",
-  }[tone];
-  const circumference = 2 * Math.PI * 47;
+  const h = size ?? { under: 6, halfway: 8, over: 9 }[state];
+  const isOver = state === "over";
+
+  // Over-cap: the fill runs to the cap, then a gap, then the overflow.
+  const OVERFLOW = 6;
+  const GAP = 1.6;
+  const fill = isOver ? 100 - OVERFLOW - GAP : (pct ?? 40);
+
+  return (
+    <div
+      className={cn("relative w-full", className)}
+      style={{ height: h * 1.75 }}
+      aria-hidden
+    >
+      {/* Track */}
+      <div
+        className="absolute inset-x-0 rounded-full bg-surface-2"
+        style={{ height: h, top: `calc(50% - ${h / 2}px)` }}
+      />
+
+      {/* Fill */}
+      <div
+        className="absolute left-0 rounded-full"
+        style={{
+          width: `${fill}%`,
+          height: h,
+          top: `calc(50% - ${h / 2}px)`,
+          background: isOver
+            ? "var(--color-accent)"
+            : state === "halfway"
+              ? "var(--color-accent)"
+              : "var(--color-accent-dim)",
+          boxShadow: isOver
+            ? `0 0 ${h * 1.6}px rgba(179,136,255,0.55)`
+            : undefined,
+        }}
+      />
+
+      {/* 50% tick — shown only while approaching; once over, the bar is past it */}
+      {state === "halfway" && (
+        <div
+          className="absolute rounded-[1px] bg-ink-3"
+          style={{
+            left: "50%",
+            width: h * 0.25,
+            height: h * 1.75,
+            top: `calc(50% - ${(h * 1.75) / 2}px)`,
+            transform: "translateX(-50%)",
+          }}
+        />
+      )}
+
+      {/* Breach marker, pinned at the cap */}
+      {isOver && (
+        <div
+          className="absolute rounded-[1px] bg-accent-strong"
+          style={{
+            left: `${fill}%`,
+            width: h * 0.34,
+            height: h * 1.67,
+            top: `calc(50% - ${(h * 1.67) / 2}px)`,
+            transform: "translateX(-50%)",
+            boxShadow: "0 0 6px rgba(201,166,255,0.75)",
+          }}
+        />
+      )}
+
+      {/* Hatched overflow past the cap */}
+      {isOver && (
+        <div
+          className="slash-hatch absolute right-0 rounded-full"
+          style={{
+            width: `${OVERFLOW}%`,
+            height: h,
+            top: `calc(50% - ${h / 2}px)`,
+            border: "1px solid var(--color-accent-dim)",
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ── The Access ring ──────────────────────────────────────────────────────
+   The open-ended arc from `access-clear.png`: an accent arc on a bg3 track,
+   with a tick at the bottom marking the 50% point. */
+
+export function AccessRing({
+  value,
+  caption,
+  label,
+  progress,
+  size = 168,
+}: {
+  value: string;
+  /** Small mono line under the value, e.g. "of $100.00". */
+  caption?: string;
+  /** Uppercase mono eyebrow above the value. */
+  label?: string;
+  /** 0–1. */
+  progress: number;
+  size?: number;
+}) {
+  const stroke = size * 0.07;
+  const r = 50 - (stroke / size) * 100 / 2;
+  const circumference = 2 * Math.PI * r;
 
   return (
     <div
       className="relative grid flex-none place-items-center"
       style={{ width: size, height: size }}
     >
-      {/* Aura */}
-      <div
-        className="absolute inset-0 rounded-full blur-[12px]"
-        style={{ background: stroke, opacity: 0.18 }}
-      />
-      {/* Track */}
-      <div className="absolute inset-[6px] rounded-full border-2 border-rule" />
-      {/* Progress */}
       <svg
-        className="absolute inset-[6px] -rotate-90"
+        className="absolute inset-0 -rotate-90"
         viewBox="0 0 100 100"
         aria-hidden
       >
         <circle
           cx="50"
           cy="50"
-          r="47"
+          r={r}
           fill="none"
-          stroke={stroke}
-          strokeWidth="2.5"
+          stroke="var(--color-surface-2)"
+          strokeWidth={(stroke / size) * 100}
+        />
+        <circle
+          cx="50"
+          cy="50"
+          r={r}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth={(stroke / size) * 100}
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={circumference * (1 - progress)}
         />
       </svg>
-      <div className="relative text-center">
-        {numerals === "serif" ? (
-          <Serif className="block leading-none text-foreground">
-            <span style={{ fontSize: size * 0.44 }}>{value}</span>
-          </Serif>
-        ) : (
-          <span
-            className={cn("slash-num block", text)}
-            style={{ fontSize: size * 0.34 }}
+      {/* The 50% tick, at the bottom of the ring */}
+      <span
+        className="absolute rounded-full bg-ink-3"
+        style={{
+          width: stroke * 0.35,
+          height: stroke * 1.5,
+          bottom: -stroke * 0.25,
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative px-4 text-center">
+        {label && (
+          <div
+            className="slash-micro text-ink-3"
+            style={{ fontSize: Math.max(8, size * 0.058) }}
           >
-            {value}
-          </span>
+            {label}
+          </div>
         )}
         <div
-          className={cn("slash-micro mt-1.5 text-[8px]", text)}
-          style={{ fontSize: Math.max(8, size * 0.075) }}
+          className="slash-num mt-1 text-foreground"
+          style={{ fontSize: size * 0.2 }}
         >
-          {label}
+          {value}
         </div>
-      </div>
-    </div>
-  );
-}
-
-/** Linear spend bar — the app's `greenGrad` fill on a `bg3` track. */
-export function SpendBar({
-  pct,
-  tone = "money",
-  className,
-}: {
-  pct: number;
-  tone?: "money" | "amber" | "coral";
-  className?: string;
-}) {
-  const fill = {
-    money: "var(--gradient-green)",
-    amber: "linear-gradient(135deg,#ffd980,#f5a623)",
-    coral: "var(--gradient-coral)",
-  }[tone];
-
-  return (
-    <div
-      className={cn(
-        "h-2 w-full overflow-hidden rounded-full bg-surface-2",
-        className
-      )}
-    >
-      <div
-        className="h-full rounded-full"
-        style={{ width: `${pct}%`, backgroundImage: fill }}
-      />
-    </div>
-  );
-}
-
-/* ── Screen: home, healthy week ─────────────────────────────────────────
-   Mirrors `C_HomeHealthy` from design-reference/slash-badge/c-home.jsx. */
-
-export function HomeScreen() {
-  return (
-    <>
-      <StatusBar />
-      <HomeHeader
-        greeting="Hey Jordan."
-        sub="Week 08 · Tuesday"
-        status="On track"
-        tone="money"
-      />
-
-      <div className="absolute inset-x-0 bottom-[62px] top-[86px] overflow-hidden px-[18px]">
-        {/* Streak card — the centerpiece */}
-        <div className="relative overflow-hidden rounded-xl border border-money/20 bg-[image:var(--gradient-card)] px-4 py-[18px] text-center">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(52,240,181,0.14),transparent_65%)]" />
-          <div className="relative flex justify-center">
-            <StreakRing value="12" label="Day streak" size={102} />
+        {caption && (
+          <div
+            className="slash-mono mt-1 text-ink-3"
+            style={{ fontSize: Math.max(9, size * 0.062) }}
+          >
+            {caption}
           </div>
-          <div className="relative mt-3 font-display text-[17px] font-bold tracking-[-0.025em]">
-            <Serif className="text-[21px]">Twelve</Serif> days, no blocks.
-          </div>
-          <p className="relative mt-1.5 text-[11.5px] leading-snug text-ink-2">
-            Best streak yet. Next milestone: 14.
-          </p>
-          <div className="relative mt-3 flex justify-center gap-[4px]">
-            {Array.from({ length: 14 }).map((_, i) => (
-              <span
-                key={i}
-                className={cn(
-                  "h-[9px] w-[9px] rounded-full",
-                  i < 12 ? "bg-money" : "border border-rule bg-surface-2"
-                )}
-                style={i < 12 ? { opacity: 1 - (12 - i) * 0.04 } : undefined}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Remaining this week */}
-        <div className="mt-3 rounded-lg border border-rule bg-surface px-4 py-3.5">
-          <div className="flex items-baseline justify-between gap-2">
-            <Micro className="text-[8.5px]">This week · remaining</Micro>
-            <span className="slash-mono text-[9px] font-bold tracking-[0.08em] text-money">
-              3D LEFT
-            </span>
-          </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="slash-num text-[42px] text-money">$28</span>
-            <span className="text-[11.5px] text-ink-3">of $75</span>
-          </div>
-          <SpendBar pct={63} className="mt-2.5" />
-          <div className="slash-mono mt-1.5 flex justify-between text-[9px] text-ink-3">
-            <span>$47 spent</span>
-            <span>Resets Sun</span>
-          </div>
-        </div>
-
-        {/* Recent catch */}
-        <div className="mt-3">
-          <Micro className="text-[8.5px]">Recent catches</Micro>
-          <div className="mt-2 flex items-center gap-3 rounded-md border border-rule bg-surface px-3 py-2.5">
-            <div className="flex-1">
-              <div className="font-display text-[12.5px] font-bold">Amazon</div>
-              <div className="text-[10.5px] text-ink-3">Tue 11:47 PM</div>
-            </div>
-            <span className="slash-mono text-[12px] font-bold text-money">
-              +$42
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <TabBar />
-    </>
-  );
-}
-
-/* ── Screen: the block shield ───────────────────────────────────────────
-   Apple's ShieldConfiguration renders a fixed centred stack: icon, title,
-   subtitle, then buttons. Mirrors `BlockShield.jsx`. */
-
-export function ShieldScreen({ tier }: { tier: "timeout" | "deep" }) {
-  const cfg =
-    tier === "timeout"
-      ? {
-          // Timeout is a material blur over the host app: what you reached
-          // for stays visible, just out of reach. Gradient is the canonical
-          // `d_grad` from design-reference/components/BlockTiers.jsx.
-          bg: "linear-gradient(180deg, rgba(64,40,130,0.94) 0%, rgba(28,16,72,0.97) 100%)",
-          blur: true,
-          icon: <ShieldTimeout size={68} className="text-[#c7b6ff]" />,
-          title: "Sit with it.",
-          subtitle: "Wait it out and Amazon opens for one hour.",
-          countdown: true,
-          primary: "Wait",
-          secondary: "Close the app",
-        }
-      : {
-          // Deep is solid — no blur, because you are not getting through.
-          bg: "#0d0820",
-          blur: false,
-          icon: <ShieldDeep size={68} className="text-[#a48ded]" />,
-          title: "Closed for the week.",
-          subtitle: "Resets Sunday 00:00.\nYou set this limit. No override.",
-          countdown: false,
-          primary: "Understood",
-          secondary: null,
-        };
-
-  return (
-    <>
-      {/* Host app underneath, so the shield reads as an overlay. */}
-      <HostAppBackdrop />
-
-      <div
-        className="absolute inset-0 flex flex-col px-5 pb-7"
-        style={{
-          background: cfg.bg,
-          backdropFilter: cfg.blur ? "blur(24px) saturate(160%)" : undefined,
-          WebkitBackdropFilter: cfg.blur
-            ? "blur(24px) saturate(160%)"
-            : undefined,
-        }}
-      >
-        {/* The OS keeps the status bar above the shield. */}
-        <div className="flex items-center justify-between px-1 pt-3 text-[11px] text-[#ede6ff]">
-          <span className="font-display font-bold tracking-tight">9:41</span>
-          <span className="flex items-end gap-[2px]" aria-hidden>
-            {[4, 6, 8, 10].map((h) => (
-              <span
-                key={h}
-                className="w-[2.5px] rounded-[1px] bg-[#ede6ff]"
-                style={{ height: h }}
-              />
-            ))}
-          </span>
-        </div>
-
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 pb-6 text-center">
-          {cfg.icon}
-          <div className="text-[19px] font-semibold leading-tight tracking-[-0.01em] text-[#ede6ff]">
-            {cfg.title}
-          </div>
-          <p className="max-w-[220px] whitespace-pre-line text-balance text-[12.5px] leading-relaxed text-[#ede6ff]/70">
-            {cfg.subtitle}
-          </p>
-          {cfg.countdown && <ShieldCountdown />}
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <div className="rounded-md bg-[#ede6ff] py-3 text-center text-[14px] font-semibold text-[#1b1240]">
-            {cfg.primary}
-          </div>
-          {cfg.secondary && (
-            <div className="py-3 text-center text-[14px] font-medium text-[#ede6ff]">
-              {cfg.secondary}
-            </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
-}
-
-/** The 60-second wait, drawn as the app's ring motif. */
-function ShieldCountdown() {
-  const circumference = 2 * Math.PI * 46;
-  return (
-    <div className="relative mt-2 grid h-[92px] w-[92px] place-items-center">
-      <div className="absolute inset-0 rounded-full border-2 border-[#ede6ff]/12" />
-      <svg className="absolute inset-0 -rotate-90" viewBox="0 0 100 100" aria-hidden>
-        <circle
-          cx="50"
-          cy="50"
-          r="46"
-          fill="none"
-          stroke="#c7b6ff"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference * 0.28}
-        />
-      </svg>
-      <div className="relative text-center">
-        <div className="slash-mono text-[19px] font-bold text-[#ede6ff]">
-          0:43
-        </div>
-        <div className="slash-micro mt-0.5 text-[7.5px] text-[#ede6ff]/55">
-          Remaining
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/** A neutral shopping-app stub behind the shield — no real trademarks. */
-function HostAppBackdrop() {
-  return (
-    <div className="absolute inset-0 bg-white" aria-hidden>
-      <div className="h-14 bg-[#131a22]" />
-      <div className="space-y-2 px-3 py-3">
-        <div className="h-8 rounded-md bg-neutral-200" />
-        <div className="h-20 rounded-md bg-[#ffe5b4]" />
-        <div className="grid grid-cols-2 gap-2">
-          {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="space-y-1.5">
-              <div className="h-20 rounded bg-neutral-100" />
-              <div className="h-2 w-3/4 rounded bg-neutral-200" />
-              <div className="h-2 w-1/3 rounded bg-neutral-300" />
-            </div>
-          ))}
-        </div>
+        )}
       </div>
     </div>
   );
