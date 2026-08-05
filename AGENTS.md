@@ -13,6 +13,12 @@ The header and footer are shared: `components/slash/site-header.tsx` owns the na
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
 The About page's words live in the `intro` and `team` constants at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
 
+**The landing page is deliberately four sections**, and its shortness is the design rather than an unfinished state.
+Hero carrying the three tenets above the fold, the one-hue/three-states mechanic, what's inside, closing CTA.
+It once had nine and taught the product five different ways across five sections that all walked the same experience; that over-explanation was cut on purpose.
+Adding a section back is a product decision, not a way to fill space.
+The "why it exists" mission now lives on `/about`, for someone who already wants in and went looking for it.
+
 ## Design source of truth
 
 The site's look is derived from the shipping iOS app, not authored independently.
@@ -20,7 +26,7 @@ The only valid sources are the app's own Swift and real captures of it:
 
 - `/Users/jxschraut/firstmate/projects/slash/ios/spending-control-iOS-app/Shared/SlashTheme.swift` — the palette and type scale, verbatim. A **different clone, read-only, never modify it**.
 - `Features/Home/HomeView.swift:342-399` in that clone — the spending-meter ruleset that `Meter` in `components/slash/phone.tsx` reproduces.
-- `/Users/jxschraut/firstmate/data/slash-current-screens-x5/` — 22 simulator captures of the shipping app plus a written design report. The seven the page uses are committed, downscaled, at `public/app/*.jpg`.
+- `/Users/jxschraut/firstmate/data/slash-current-screens-x5/` — 22 simulator captures of the shipping app plus a written design report. Seven are committed, downscaled, at `public/app/*.jpg`; the trimmed page renders four of them, and `Shot` in `components/slash/phone.tsx` still accepts all seven.
 
 **`ios/design-reference/Design/**` is dead and must not be used.**
 Those React/HTML prototypes never shipped: they define a green/amber/coral traffic light (`--slash-green-300`, `--slash-orange-400`) and a `#0D0D0D` canvas, none of which exist in the app.
