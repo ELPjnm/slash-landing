@@ -13,6 +13,12 @@ The header and footer are shared: `components/slash/site-header.tsx` owns the na
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
 The About page's words live in the `intro` and `team` constants at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
 
+**The landing page is deliberately three sections**, and its shortness is the design rather than an unfinished state.
+Hero carrying the three tenets above the fold, what's inside, closing CTA.
+It once had nine and taught the product five different ways across five sections that all walked the same experience; that over-explanation was cut on purpose, and the one-hue/three-states mechanic section went with it in review.
+Adding a section back is a product decision, not a way to fill space.
+The "why it exists" mission now lives on `/about`, for someone who already wants in and went looking for it.
+
 ## Design source of truth
 
 The site's look is derived from the shipping iOS app, not authored independently.
@@ -20,7 +26,7 @@ The only valid sources are the app's own Swift and real captures of it:
 
 - `/Users/jxschraut/firstmate/projects/slash/ios/spending-control-iOS-app/Shared/SlashTheme.swift` — the palette and type scale, verbatim. A **different clone, read-only, never modify it**.
 - `Features/Home/HomeView.swift:342-399` in that clone — the spending-meter ruleset that `Meter` in `components/slash/phone.tsx` reproduces.
-- `/Users/jxschraut/firstmate/data/slash-current-screens-x5/` — 22 simulator captures of the shipping app plus a written design report. The seven the page uses are committed, downscaled, at `public/app/*.jpg`.
+- `/Users/jxschraut/firstmate/data/slash-current-screens-x5/` — 22 simulator captures of the shipping app plus a written design report. Seven are committed, downscaled, at `public/app/*.jpg`; the trimmed page renders only `home-healthy` in the hero, and `Shot` in `components/slash/phone.tsx` still accepts all seven.
 
 **`ios/design-reference/Design/**` is dead and must not be used.**
 Those React/HTML prototypes never shipped: they define a green/amber/coral traffic light (`--slash-green-300`, `--slash-orange-400`) and a `#0D0D0D` canvas, none of which exist in the app.
@@ -41,6 +47,13 @@ The app renders **no serif and no italic**, and neither does the site.
 Headlines are sentence case with a terminal period; that full stop is the app's voice tic.
 
 The app motifs live in `components/slash/` — the `/` mark, the shield glyph, the meter, the Access ring, and the phone frame. Reuse those rather than redrawing them.
+
+**`Mark` in `components/slash/marks.tsx` is the site's only logo primitive**, and every Slash mark on the site goes through it: header, hero tenets, closing CTA, footer.
+The element is always 1:2, width half the height, because every call site sizes against that box.
+The bar itself is thin, `0.10 × height`, and inset within the box rather than filling it; that is a deliberate divergence from the iOS captures, which draw it at `0.30 × height`, because the heavy bar read chunky on the web.
+The geometry and the reason are documented on the component; do not restore the heavier bar by citing the app screenshots.
+The header once rendered the square app icon from `public/slash-logo.png` instead, which put a 1:1 badge beside the bare 1:2 slash everywhere else; that raster and an off-ratio `public/logo.png` were deleted so there is nothing left to reach for.
+Never introduce a logo `<img>` or hand-set SVG; the favicon is the separate iOS artwork at `app/icon.png` and is not the site's mark.
 
 ## Sharp edges
 

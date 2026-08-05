@@ -4,10 +4,25 @@ import { cn } from "@/lib/utils";
 /**
  * The Slash mark — a bare Signal Purple slash, drawn as a parallelogram.
  *
- * This is what the app actually renders (see `onboarding-welcome` and the
- * Home sticky header in the current screenshots): an unboxed accent glyph,
- * not a gradient squircle badge. Proportions are taken from those captures:
- * the stroke is 0.30× the height and the whole mark spans 0.50× the height.
+ * This is the site's only logo primitive. Every Slash mark on the site
+ * renders through it, so the glyph is identical everywhere by construction.
+ *
+ * Geometry, all in viewBox units where the height is 100:
+ *
+ *   stroke   0.10 × height, the horizontal thickness of the bar
+ *   slant    0.20 × height of horizontal run, top-right to bottom-left
+ *   glyph    0.30 × height wide (stroke + slant), centred in the box
+ *   box      0.50 × height wide, so the element is always 1:2
+ *
+ * The box stays 1:2 because every call site sizes against it; the glyph is
+ * inset within it rather than filling it. That is what lets the bar thin
+ * out without changing either the element's proportions or the angle.
+ *
+ * **The 0.10 stroke is a deliberate divergence from the app.** The iOS
+ * captures draw this bar at 0.30 × height, filling the box edge to edge,
+ * and the mark was transcribed at that weight; on the web it read chunky,
+ * so the owner asked for a thin, typographic slash instead. Do not "restore"
+ * the heavier bar by citing `onboarding-welcome` or the Home sticky header.
  */
 export function Mark({
   size = 28,
@@ -26,7 +41,7 @@ export function Mark({
       viewBox="0 0 50 100"
       fill="none"
     >
-      <path d="M20 0 H50 L30 100 H0 Z" fill="currentColor" />
+      <path d="M30 0 H40 L20 100 H10 Z" fill="currentColor" />
     </svg>
   );
 }
