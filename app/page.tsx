@@ -12,6 +12,8 @@ import { WaitlistForm } from "@/components/waitlist-form";
 import { Mark, Micro, ShieldMark } from "@/components/slash/marks";
 import { AccessRing, Meter, PhoneShot } from "@/components/slash/phone";
 import { Reveal } from "@/components/slash/reveal";
+import { AmbientWash, SiteFooter } from "@/components/slash/site-frame";
+import { SiteHeader } from "@/components/slash/site-header";
 
 /* ── Section chrome ─────────────────────────────────────────────────── */
 
@@ -157,33 +159,9 @@ const guarantees = [
 export default function Home() {
   return (
     <main className="relative min-h-screen">
-      {/* Ambient wash — one hue, softly blurred. */}
-      <div
-        className="pointer-events-none fixed inset-0 overflow-hidden"
-        aria-hidden
-      >
-        <div className="absolute -left-40 -top-52 h-[620px] w-[620px] rounded-full bg-accent/[0.14] blur-[170px]" />
-        <div className="absolute -right-48 top-[45%] h-[560px] w-[560px] rounded-full bg-accent-deep/[0.16] blur-[170px]" />
-        <div className="absolute -bottom-56 left-1/3 h-[520px] w-[520px] rounded-full bg-accent/[0.07] blur-[180px]" />
-      </div>
+      <AmbientWash />
 
-      {/* ── Nav ───────────────────────────────────────────────────── */}
-      <header className="relative z-20">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:py-6">
-          <a href="/" className="flex items-center gap-2.5">
-            <Mark size={26} />
-            <span className="font-display text-[19px] font-semibold tracking-tight">
-              Slash
-            </span>
-          </a>
-          <a
-            href="#waitlist"
-            className="rounded-full border border-rule-strong px-4 py-2 text-[13.5px] font-medium text-ink-2 transition-colors hover:border-accent hover:text-foreground"
-          >
-            Join the waitlist
-          </a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       {/* ── Hero ──────────────────────────────────────────────────── */}
       <Section className="pb-16 pt-6 sm:pb-24 sm:pt-10">
@@ -604,33 +582,7 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* ── Footer ───────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-rule">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-6 py-9 sm:flex-row">
-          <div className="flex items-center gap-2.5">
-            <Mark size={20} />
-            <p className="text-[13.5px] text-ink-3">
-              © 2026 Slash. All rights reserved.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            {[
-              ["Privacy", "/privacy"],
-              ["Terms", "/terms"],
-              ["LinkedIn", "https://www.linkedin.com/company/the-slash-app/"],
-              ["Contact", "mailto:navya@theslash.app"],
-            ].map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                className="text-[13.5px] text-ink-3 transition-colors hover:text-foreground"
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
