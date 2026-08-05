@@ -62,48 +62,13 @@ function SectionHead({
 
 /**
  * The three claims the page is built on. They sit in the hero, above the
- * fold, because they are the whole pitch — everything below only shows
- * what they look like in the app.
+ * fold, because they are the whole pitch; the one section below them only
+ * names the parts that deliver it.
  */
 const tenets = [
   "Spend less, on purpose.",
   "One honest number.",
   "It stops you, not just tracks you.",
-];
-
-/**
- * The three states of the meter. One hue throughout: the escalation is
- * carried by fill length and by the breach furniture, never by a hue swap,
- * exactly as the app draws it.
- */
-const states = [
-  {
-    eyebrow: "Under cap",
-    headline: "Nothing in the way.",
-    body: "Spend freely. Slash keeps a running count of what's left this week.",
-    shot: "home-under" as const,
-    alt: "The Slash home screen under the weekly cap, showing $28.00 of $75.00 spent.",
-    meter: { state: "under" as const, pct: 37, size: 10 },
-    reading: "37% OF CAP",
-  },
-  {
-    eyebrow: "Halfway",
-    headline: "Take a beat.",
-    body: "Your apps pause. Wait sixty seconds to unlock for an hour. The delay is the point.",
-    shot: "home-healthy" as const,
-    alt: "The Slash home screen at the halfway mark, showing $47.00 of $75.00 spent.",
-    meter: { state: "halfway" as const, pct: 63, size: 12 },
-    reading: "63% OF CAP",
-  },
-  {
-    eyebrow: "Over cap",
-    headline: "You've hit your cap.",
-    body: "No override. Your apps stay shielded until the week resets on Sunday.",
-    shot: "home-over" as const,
-    alt: "The Slash home screen over the weekly cap, showing $79.00 of $75.00 spent and apps paused.",
-    meter: { state: "over" as const, pct: undefined, size: 14 },
-    reading: "105% OF CAP",
-  },
 ];
 
 /* ── Page ───────────────────────────────────────────────────────────── */
@@ -189,51 +154,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ── 2 · The mechanic: one hue, three states ───────────────── */}
-      <Section className="py-16 sm:py-20">
-        <SectionHead
-          eyebrow="The mechanic"
-          title="One meter. Three states."
-          body="Set a cap, link your bank through Plaid, pick the apps to shield. From there it is one bar filling toward the line: dim while there's room, solid past halfway, hatched past the cap. Slash never swaps in a warning color."
-          centered
-        />
-
-        {/* The motif and the shipping screen it comes from, side by side in
-            each column: the meter is drawn to the app's own ruleset. */}
-        <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6">
-          {states.map((s, i) => (
-            <Reveal
-              key={s.headline}
-              delay={i * 90}
-              className="flex flex-col items-center text-center"
-            >
-              <div className="w-full max-w-[228px]">
-                <PhoneShot shot={s.shot} width={228} alt={s.alt} />
-
-                <div className="mt-6 flex items-baseline justify-between gap-3">
-                  <Micro className="text-[10px] text-ink-3">{s.eyebrow}</Micro>
-                  <span className="slash-mono text-[10.5px] tracking-[0.1em] text-ink-3">
-                    {s.reading}
-                  </span>
-                </div>
-                <Meter
-                  className="mt-2.5"
-                  state={s.meter.state}
-                  pct={s.meter.pct}
-                  size={s.meter.size}
-                />
-              </div>
-
-              <h3 className="slash-head mt-6 text-[21px]">{s.headline}</h3>
-              <p className="mt-2.5 max-w-[32ch] text-[14px] leading-relaxed text-ink-2">
-                {s.body}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
-      {/* ── 3 · What's inside ────────────────────────────────────── */}
+      {/* ── 2 · What's inside ────────────────────────────────────── */}
       <Section className="py-16 sm:py-20">
         <SectionHead
           eyebrow="What's inside"
@@ -357,7 +278,7 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* ── 4 · Closing CTA ──────────────────────────────────────── */}
+      {/* ── 3 · Closing CTA ──────────────────────────────────────── */}
       <Section className="pb-20 pt-6 sm:pb-28">
         <Reveal className="relative overflow-hidden rounded-2xl border border-rule-strong bg-[image:var(--gradient-card)] px-6 py-16 text-center sm:px-10">
           <div className="pointer-events-none absolute -top-32 left-1/2 h-80 w-[520px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(122,79,255,0.30),transparent_65%)]" />
