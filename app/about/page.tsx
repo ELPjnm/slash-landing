@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
+import { Micro } from "@/components/slash/marks";
 import { Reveal } from "@/components/slash/reveal";
 import { AmbientWash, SiteFooter } from "@/components/slash/site-frame";
 import { SiteHeader } from "@/components/slash/site-header";
@@ -8,7 +9,7 @@ import { SiteHeader } from "@/components/slash/site-header";
 export const metadata: Metadata = {
   title: "About us — Slash",
   description:
-    "Who is building Slash, the spending firewall for iPhone that pauses your shopping apps when you cross the weekly cap you set.",
+    "Why Slash exists, and who is building it: a spending firewall for iPhone that pauses your shopping apps when you cross the weekly cap you set.",
 };
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -17,11 +18,24 @@ export const metadata: Metadata = {
    Everything this page says in words lives in the two blocks below.
    Rewrite the strings and the layout follows; nothing further down the
    file needs to change. Add a person by adding another entry to `team`.
+
+   The home page states what Slash is; this page is where the "why" lives,
+   for someone who already wants in and came looking for it.
    ══════════════════════════════════════════════════════════════════════ */
 
 const intro = {
   eyebrow: "About us",
-  body: "Slash is a small, independent project with one job: help people spend less money.",
+  /** The headline reads as one sentence; the second half carries the
+      accent gradient, the way the home page sets its own claims. */
+  headline: {
+    lead: "We’ve been trained to spend before we think.",
+    accent: "Slash puts a wall between the impulse and the tap.",
+  },
+  /** One string per paragraph. */
+  body: [
+    "Slash is a small, independent project with one job: help people spend less money.",
+    "Not by nagging after the money is already gone, and not by drawing another chart of it. You set one weekly cap, decide which apps it governs, and Slash holds that line while there is still something to hold.",
+  ],
 };
 
 const team = [
@@ -125,15 +139,24 @@ export default function About() {
       {/* Centred in whatever room is left, so a short page sits in the
           middle of the viewport instead of hugging the header. */}
       <div className="flex flex-1 flex-col justify-center">
-        {/* ── Intro ───────────────────────────────────────────────── */}
-        <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-10 pt-14 sm:pb-14 sm:pt-20">
+        {/* ── Why it exists ───────────────────────────────────────── */}
+        <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-12 pt-14 sm:pb-16 sm:pt-20">
           <Reveal className="mx-auto max-w-3xl text-center">
-            <h1 className="slash-micro text-[11px] text-accent">
-              {intro.eyebrow}
+            <Micro className="text-accent">{intro.eyebrow}</Micro>
+            <h1 className="slash-head mt-4 text-[clamp(28px,4.6vw,44px)]">
+              {intro.headline.lead}{" "}
+              <span className="gradient-text">{intro.headline.accent}</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-[52ch] text-[18px] leading-relaxed text-ink-2 sm:text-[20px]">
-              {intro.body}
-            </p>
+            <div className="mt-6 flex flex-col gap-4">
+              {intro.body.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="mx-auto max-w-[56ch] text-[16px] leading-relaxed text-ink-2 sm:text-[17px]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </Reveal>
         </section>
 
