@@ -67,7 +67,9 @@ export default function About() {
               {intro.body.map((paragraph) => (
                 <p
                   key={paragraph}
-                  className="mx-auto max-w-[56ch] text-[16px] leading-relaxed text-ink-2 sm:text-[17px]"
+                  /* `text-pretty` so a short paragraph does not drop its
+                     last word onto a line of its own. */
+                  className="mx-auto max-w-[56ch] text-pretty text-[16px] leading-relaxed text-ink-2 sm:text-[17px]"
                 >
                   {paragraph}
                 </p>
