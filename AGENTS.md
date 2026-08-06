@@ -9,6 +9,7 @@ Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
 The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, and `/terms`.
 The header and footer are shared: `components/slash/site-header.tsx` owns the nav (add a tab to its `tabs` array, not to a page) and `components/slash/site-frame.tsx` owns the ambient wash and the footer.
 `/privacy` and `/terms` predate that chrome and still render their own "Back to home" link instead.
+**`/privacy` is live but deliberately unlinked**: the owner is withholding the policy for now, so the footer entry and the landing page's trust-line link were removed while the route and its content stayed untouched. The missing footer link is the intent, not an oversight; restoring it is the owner's call.
 
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
 The About page's words live in the `intro` constant at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
