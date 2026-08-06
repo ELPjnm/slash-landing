@@ -11,7 +11,8 @@ The header and footer are shared: `components/slash/site-header.tsx` owns the na
 `/privacy` and `/terms` predate that chrome and still render their own "Back to home" link instead.
 
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
-The About page's words live in the `intro` and `team` constants at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
+The About page's words live in the `intro` constant at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
+**`/about` is mission-only.** It once carried a founder card with a portrait under the mission; the owner cut it as premature and the photo went with it. Putting a person back on that page is a product decision, not a gap to fill.
 
 **The landing page is deliberately three sections**, and its shortness is the design rather than an unfinished state.
 Hero carrying the three tenets above the fold, what's inside, closing CTA.
