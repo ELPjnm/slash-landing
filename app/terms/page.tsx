@@ -43,7 +43,7 @@ export default function TermsOfUse() {
           Back to home
         </Link>
 
-        <h1 className="gradient-text mb-3 text-4xl font-bold italic sm:text-5xl">
+        <h1 className="gradient-text mb-3 text-4xl font-bold sm:text-5xl">
           Slash Terms of Use
         </h1>
         <p className="mb-10 text-sm text-ink-3">
@@ -57,9 +57,8 @@ export default function TermsOfUse() {
             <Placeholder>[LEGAL ENTITY]</Placeholder> ("Slash," "we," "us," or
             "our") governing your use of the Slash mobile application and the
             theslash.app website (together, the "Service"). By creating an
-            account or using the Service, you agree to these Terms and to our{" "}
-            <Ext href="https://theslash.app/privacy">Privacy Policy</Ext>. If you
-            do not agree, do not use the Service.
+            account or using the Service, you agree to these Terms and to our
+            Privacy Policy. If you do not agree, do not use the Service.
           </p>
 
           <Section title="1. What Slash is">
@@ -156,8 +155,7 @@ export default function TermsOfUse() {
               <strong className="font-semibold text-foreground">Plaid Inc.</strong> By
               connecting an account, you authorize Slash and Plaid to access
               transaction information from that account for the purpose of
-              operating the Service, as described in our{" "}
-              <Ext href="https://theslash.app/privacy">Privacy Policy</Ext> and
+              operating the Service, as described in our Privacy Policy and
               Plaid's{" "}
               <Ext href="https://plaid.com/legal/">
                 end-user privacy policy
