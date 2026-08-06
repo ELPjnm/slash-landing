@@ -265,15 +265,7 @@ export default function Home() {
         <Reveal delay={220}>
           <p className="mx-auto mt-8 max-w-[70ch] text-center text-[14px] leading-relaxed text-ink-3">
             Slash makes money from a subscription, not from you: no ads, no data
-            selling, no tracking, and everything deletable from Settings. Read
-            the full{" "}
-            <a
-              href="/privacy"
-              className="text-accent underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent"
-            >
-              Privacy Policy
-            </a>
-            .
+            selling, no tracking, and everything deletable from Settings.
           </p>
         </Reveal>
       </Section>

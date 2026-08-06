@@ -9,9 +9,12 @@ Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
 The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, and `/terms`.
 The header and footer are shared: `components/slash/site-header.tsx` owns the nav (add a tab to its `tabs` array, not to a page) and `components/slash/site-frame.tsx` owns the ambient wash and the footer.
 `/privacy` and `/terms` predate that chrome and still render their own "Back to home" link instead.
+**`/privacy` and `/terms` are both live but deliberately unlinked.** The owner is withholding the policy, and the Terms still carry unfilled `[LEGAL ENTITY]` and `[EFFECTIVE DATE]` placeholders, so neither is ready to be advertised. Both footer entries, the landing page's trust-line link, and the two Privacy Policy cross-references inside the Terms were removed while every route and every word of their content stayed untouched. The empty footer slots are the intent, not an oversight; relinking either is the owner's call, and the Terms placeholders are the signal for when.
+The Terms cross-references are plain body text rather than reworded, because those sentences are load-bearing legal wording that must stay word-for-word; only the hyperlinks came off.
 
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
-The About page's words live in the `intro` and `team` constants at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
+The About page's words live in the `intro` constant at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
+**`/about` is mission-only.** It once carried a founder card with a portrait under the mission; the owner cut it as premature and the photo went with it. Putting a person back on that page is a product decision, not a gap to fill.
 
 **The landing page is deliberately three sections**, and its shortness is the design rather than an unfinished state.
 Hero carrying the three tenets above the fold, what's inside, closing CTA.
@@ -59,6 +62,7 @@ Never introduce a logo `<img>` or hand-set SVG; the favicon is the separate iOS 
 
 - **Scroll reveals must never gate visibility on JS.** `components/slash/reveal.tsx` renders visible by default and only hides off-screen elements after hydration, and it reveals by scroll position rather than `IntersectionObserver`. An observer never fires for elements skipped by an instant jump (anchor links, restored scroll, scripted scrolling), which previously left whole mid-page sections stranded at `opacity: 0` in screenshots and for crawlers. Do not "simplify" this back to `whileInView`.
 - **The phone mockups frame real captures, and draw their own status bar.** `PhoneShot` hides the top 170px of each capture behind a redrawn iOS status bar, because the simulator shots were taken charging and carry a green battery glyph that is not in the palette. All its internal metrics are container-query units, so the frame stays in proportion while shrinking to fit narrow viewports. Do not swap in fabricated app UI, and do not give the frame a fixed pixel width.
+- **`npm run build` while `npm run dev` is running breaks the dev server**, since both write `.next`; the running server then serves 500s and screenshots come back blank. Screenshot first, or restart dev after a build.
 - **Full-page screenshots need a scroll-through first**, and at DPR 2 the capture tool can stitch a spurious repeat of the top of the page past the document end. Verify against `document.body.scrollHeight` before believing a duplicate is real.
 - **`npm run lint` is broken** and predates the current work: ESLint 9 wants a flat `eslint.config.*` but the repo has `.eslintrc.json`. `npm run build` reports the same error and still succeeds. Typecheck with `npx tsc --noEmit`.
 - The waitlist server action (`app/actions/waitlist.ts`) needs `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Without them locally the form still round-trips and renders its error state, so a failed submit locally is expected, not a regression.

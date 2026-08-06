@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
           Back to home
         </Link>
 
-        <h1 className="gradient-text mb-3 text-4xl font-bold italic sm:text-5xl">
+        <h1 className="gradient-text mb-3 text-4xl font-bold sm:text-5xl">
           Slash Privacy Policy
         </h1>
         <p className="mb-10 text-sm text-ink-3">
