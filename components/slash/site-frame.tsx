@@ -17,11 +17,11 @@ export function AmbientWash() {
   );
 }
 
-/* `/privacy` is deliberately absent: the route is live but unlinked for
-   now, by the owner's call. See AGENTS.md before adding it back. */
+/* `/privacy` and `/terms` are deliberately absent: both routes are live
+   but unlinked for now, by the owner's call. See AGENTS.md before adding
+   either back. */
 const footerLinks: [string, string][] = [
   ["About us", "/about"],
-  ["Terms", "/terms"],
   ["LinkedIn", "https://www.linkedin.com/company/the-slash-app/"],
   ["Contact", "mailto:navya@theslash.app"],
 ];
