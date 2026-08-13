@@ -9,8 +9,14 @@ Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
 The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, and `/terms`.
 The header and footer are shared: `components/slash/site-header.tsx` owns the nav (add a tab to its `tabs` array, not to a page) and `components/slash/site-frame.tsx` owns the ambient wash and the footer.
 `/privacy` and `/terms` predate that chrome and still render their own "Back to home" link instead.
-**`/privacy` and `/terms` are both live but deliberately unlinked.** The owner is withholding the policy, and the Terms still carry unfilled `[LEGAL ENTITY]` and `[EFFECTIVE DATE]` placeholders, so neither is ready to be advertised. Both footer entries, the landing page's trust-line link, and the two Privacy Policy cross-references inside the Terms were removed while every route and every word of their content stayed untouched. The empty footer slots are the intent, not an oversight; relinking either is the owner's call, and the Terms placeholders are the signal for when.
+**`/privacy` and `/terms` are both live but deliberately unlinked.** Both footer entries, the landing page's trust-line link, and the two Privacy Policy cross-references inside the Terms were removed while every route and every word of their content stayed untouched. The empty footer slots are the intent, not an oversight; relinking either is the owner's call.
+The `[LEGAL ENTITY]` / `[EFFECTIVE DATE]` / `[JURISDICTION]` placeholders that used to mark these pages as unready were filled on 2026-08-13, so they no longer signal anything; the pages stay unlinked until the owner says otherwise.
 The Terms cross-references are plain body text rather than reworded, because those sentences are load-bearing legal wording that must stay word-for-word; only the hyperlinks came off.
+
+**The legal pages are transcription, not authorship.** Their words come verbatim from `/Users/jxschraut/Documents/Slash/app-store-submission/legal/privacy-policy.md` and `terms-of-use.md`, which are the source of truth and carry a repo-internal HTML comment block that must be stripped before publishing.
+Never draft, reword, or "improve" a sentence on either page; edit the source markdown, then transcribe.
+Each publication is archived under `legal/published-snapshot-<date>/` in that repo, as the plain rendered text of the live page.
+Terms Section 14 carries Apple's required minimum terms, including the third-party-beneficiary clause naming Apple; removing any of it breaks App Store compliance while `Constants.IAP.termsOfUseURL` points at `/terms`.
 
 Keep copy truthful to an unreleased product; do not invent claims the shipping app does not already make.
 The About page's words live in the `intro` constant at the top of `app/about/page.tsx` so the owner can edit copy without touching layout.
