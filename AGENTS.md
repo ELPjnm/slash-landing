@@ -8,10 +8,10 @@ The marketing site for **theslash.app**, an unreleased iPhone spending-firewall 
 Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
 The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, and `/terms`.
 The header and footer are shared: `components/slash/site-header.tsx` owns the nav (add a tab to its `tabs` array, not to a page) and `components/slash/site-frame.tsx` owns the ambient wash and the footer.
-`/privacy` and `/terms` predate that chrome and still render their own "Back to home" link instead.
-**`/privacy` and `/terms` are both live but deliberately unlinked.** Both footer entries, the landing page's trust-line link, and the two Privacy Policy cross-references inside the Terms were removed while every route and every word of their content stayed untouched. The empty footer slots are the intent, not an oversight; relinking either is the owner's call.
-The `[LEGAL ENTITY]` / `[EFFECTIVE DATE]` / `[JURISDICTION]` placeholders that used to mark these pages as unready were filled on 2026-08-13, so they no longer signal anything; the pages stay unlinked until the owner says otherwise.
-The Terms cross-references are plain body text rather than reworded, because those sentences are load-bearing legal wording that must stay word-for-word; only the hyperlinks came off.
+Every route now uses that shared chrome, including `/privacy` and `/terms`, which dropped their own "Back to home" link and their own hand-written footer on 2026-08-13.
+Their document column is `max-w-3xl` inside the chrome's `max-w-6xl`, on the same `px-6` gutter so the copy lines up with the header mark on narrow viewports.
+**`/privacy` and `/terms` are linked again**, from the two footer entries and from the landing page's trust line, now that the `[LEGAL ENTITY]` / `[EFFECTIVE DATE]` / `[JURISDICTION]` placeholders that had held them back are filled.
+The two Privacy Policy cross-references inside the Terms stay plain body text: those sentences are load-bearing legal wording that must stay word-for-word, and rehyperlinking them would edit a transcribed page.
 
 **The legal pages are transcription, not authorship.** Their words come verbatim from `/Users/jxschraut/Documents/Slash/app-store-submission/legal/privacy-policy.md` and `terms-of-use.md`, which are the source of truth and carry a repo-internal HTML comment block that must be stripped before publishing.
 Never draft, reword, or "improve" a sentence on either page; edit the source markdown, then transcribe.

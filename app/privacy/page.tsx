@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+
+import { AmbientWash, SiteFooter } from "@/components/slash/site-frame";
+import { SiteHeader } from "@/components/slash/site-header";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Slash",
@@ -24,16 +25,15 @@ function Ext({ href, children }: { href: string; children: React.ReactNode }) {
 
 export default function PrivacyPolicy() {
   return (
-    <main className="min-h-screen bg-transparent">
-      <div className="mx-auto max-w-3xl px-6 py-16 sm:px-8 sm:py-20">
-        <Link
-          href="/"
-          className="mb-12 inline-flex items-center gap-2 text-sm text-ink-3 transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to home
-        </Link>
+    <main className="relative min-h-screen">
+      <AmbientWash />
 
+      <SiteHeader />
+
+      {/* The document column is narrower than the 6xl chrome above and
+          below it, but it shares the same px-6 gutter, so its left edge
+          lines up with the header's mark on narrow viewports. */}
+      <div className="relative z-10 mx-auto max-w-3xl px-6 pb-20 pt-10 sm:pb-24 sm:pt-14">
         <h1 className="gradient-text mb-3 text-4xl font-bold sm:text-5xl">
           Slash Privacy Policy
         </h1>
@@ -398,13 +398,9 @@ export default function PrivacyPolicy() {
             </p>
           </Section>
         </div>
-
-        <footer className="mt-16 border-t border-rule pt-8">
-          <p className="text-sm text-ink-3">
-            © 2025 Slash. All rights reserved.
-          </p>
-        </footer>
       </div>
+
+      <SiteFooter />
     </main>
   );
 }
