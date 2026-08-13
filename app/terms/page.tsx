@@ -8,15 +8,6 @@ export const metadata: Metadata = {
     "The terms governing your use of the Slash app and website, including subscriptions, bank connections, app blocking, and your responsibilities.",
 };
 
-/** Visibly-marked placeholder to be filled in before publishing. */
-function Placeholder({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="mx-0.5 rounded border border-primary/40 bg-primary/15 px-1.5 py-0.5 font-mono text-[0.85em] text-primary">
-      {children}
-    </span>
-  );
-}
-
 /** External link styled for the dark theme. */
 function Ext({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -48,14 +39,14 @@ export default function TermsOfUse() {
         </h1>
         <p className="mb-10 text-sm text-ink-3">
           <span className="font-semibold text-ink-2">Effective date:</span>{" "}
-          <Placeholder>[EFFECTIVE DATE]</Placeholder>
+          August 13, 2026
         </p>
 
         <div className="space-y-5 text-[1.0625rem] leading-relaxed text-ink-2">
           <p>
-            These Terms of Use ("Terms") are a legal agreement between you and{" "}
-            <Placeholder>[LEGAL ENTITY]</Placeholder> ("Slash," "we," "us," or
-            "our") governing your use of the Slash mobile application and the
+            These Terms of Use ("Terms") are a legal agreement between you and
+            Slash LLC ("Slash," "we," "us," or "our") governing your use of the
+            Slash mobile application and the
             theslash.app website (together, the "Service"). By creating an
             account or using the Service, you agree to these Terms and to our
             Privacy Policy. If you do not agree, do not use the Service.
@@ -129,8 +120,8 @@ export default function TermsOfUse() {
                 (Settings → your name → Subscriptions).
               </li>
               <li>
-                Deleting the app does not cancel your subscription; you must
-                cancel through Apple.
+                Deleting the app, or deleting your Slash account, does not
+                cancel your subscription; you must cancel through Apple.
               </li>
               <li>
                 Any unused portion of a free trial, if one is offered, is
@@ -285,8 +276,10 @@ export default function TermsOfUse() {
           <Section title="13. Termination">
             <p>
               You may stop using the Service and delete your account at any time
-              from within the app. We may suspend or terminate your access if you
-              violate these Terms or if we discontinue the Service. Provisions
+              from within the app, including before you subscribe. Deleting your
+              account does not cancel your subscription; see Section 3. We may
+              suspend or terminate your access if you violate these Terms or if
+              we discontinue the Service. Provisions
               that by their nature should survive termination, including Sections
               6 and 8 through 15, will survive.
             </p>
@@ -300,8 +293,7 @@ export default function TermsOfUse() {
             </p>
             <List>
               <li>
-                These Terms are between you and{" "}
-                <Placeholder>[LEGAL ENTITY]</Placeholder> only, and not with
+                These Terms are between you and Slash LLC only, and not with
                 Apple; Apple is not responsible for the Slash app or its content.
               </li>
               <li>
@@ -355,14 +347,14 @@ export default function TermsOfUse() {
               Service after an update means you accept the revised Terms.
             </p>
             <p>
-              These Terms are governed by the laws of{" "}
-              <Placeholder>[JURISDICTION]</Placeholder>, without regard to its
-              conflict-of-laws rules, and any dispute will be resolved in the
-              courts located there, unless applicable law requires otherwise.
+              These Terms are governed by the laws of the State of Illinois,
+              without regard to its conflict-of-laws rules, and any dispute will
+              be resolved in the courts located there, unless applicable law
+              requires otherwise.
             </p>
             <p>Questions about these Terms can be sent to:</p>
             <p className="text-ink-2">
-              <Placeholder>[LEGAL ENTITY]</Placeholder>
+              Slash LLC
               <br />
               <Ext href="mailto:support@theslash.app">support@theslash.app</Ext>
             </p>
