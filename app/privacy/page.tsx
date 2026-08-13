@@ -8,15 +8,6 @@ export const metadata: Metadata = {
     "How Slash collects, uses, shares, and protects your information, and the choices and rights you have.",
 };
 
-/** Visibly-marked placeholder to be filled in before publishing. */
-function Placeholder({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="mx-0.5 rounded border border-primary/40 bg-primary/15 px-1.5 py-0.5 font-mono text-[0.85em] text-primary">
-      {children}
-    </span>
-  );
-}
-
 /** External link styled for the dark theme. */
 function Ext({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -48,7 +39,7 @@ export default function PrivacyPolicy() {
         </h1>
         <p className="mb-10 text-sm text-ink-3">
           <span className="font-semibold text-ink-2">Effective date:</span>{" "}
-          <Placeholder>[EFFECTIVE DATE]</Placeholder>
+          August 13, 2026
         </p>
 
         <div className="space-y-5 text-[1.0625rem] leading-relaxed text-ink-2">
@@ -61,10 +52,9 @@ export default function PrivacyPolicy() {
             it with, and the choices and rights you have.
           </p>
           <p>
-            In this policy, "Slash," "we," "us," and "our" refer to{" "}
-            <Placeholder>[LEGAL ENTITY]</Placeholder>, the operator of the Slash
-            app and the theslash.app website. "You" refers to the person using
-            the app.
+            In this policy, "Slash," "we," "us," and "our" refer to Slash LLC,
+            the operator of the Slash app and the theslash.app website. "You"
+            refers to the person using the app.
           </p>
           <p>
             We do not sell your personal information, we do not use it for
@@ -74,14 +64,12 @@ export default function PrivacyPolicy() {
           <Section title="1. Information we collect">
             <SubHeading>Account information</SubHeading>
             <p>
-              When you create an account, we collect your{" "}
+              When you create an account, we collect the{" "}
+              <strong className="font-semibold text-foreground">name</strong> and{" "}
               <strong className="font-semibold text-foreground">email address</strong>{" "}
-              and an authentication credential (your password is never stored by
-              us in readable form; it is handled by our authentication provider,
-              Supabase). We may also collect your{" "}
-              <strong className="font-semibold text-foreground">name</strong> where it
-              is provided to us in connection with your account or bank
-              connection.
+              you provide, together with an authentication credential (your
+              password is never stored by us in readable form; it is handled by
+              our authentication provider, Supabase).
             </p>
 
             <SubHeading>Financial information (through Plaid)</SubHeading>
@@ -134,6 +122,23 @@ export default function PrivacyPolicy() {
               details. We receive from Apple your subscription status (for
               example, whether your subscription is active) so we can provide the
               paid features.
+            </p>
+
+            <SubHeading>Device and notification data</SubHeading>
+            <p>
+              We assign your account a unique{" "}
+              <strong className="font-semibold text-foreground">
+                account identifier
+              </strong>{" "}
+              that links your records within Slash. If you allow notifications,
+              we also collect a{" "}
+              <strong className="font-semibold text-foreground">
+                device push token
+              </strong>{" "}
+              from Apple and store it so we can send notifications that keep
+              your blocking status up to date; you can revoke this at any time
+              in iOS notification settings, and we remove the token when you
+              sign out or delete your account.
             </p>
 
             <SubHeading>Information that stays on your device</SubHeading>
@@ -314,11 +319,14 @@ export default function PrivacyPolicy() {
             <SubHeading>Deleting your account</SubHeading>
             <p>
               You can delete your account and all associated data entirely from
-              within the app, in Settings. Deleting your account permanently
-              removes your profile, your settings, your transaction records, and
-              your bank connections, and it revokes your bank access token with
+              within the app, in Settings, and from the subscription screen if
+              you have not subscribed. Deleting your account permanently removes
+              your profile, your settings, your transaction records, and your
+              bank connections, and it revokes your bank access token with
               Plaid. Account deletion is immediate and cannot be undone; it is
-              separate from simply signing out.
+              separate from simply signing out. It also does not cancel an App
+              Store subscription, which you cancel through Apple as described in
+              our Terms of Use.
             </p>
 
             <SubHeading>Your privacy rights</SubHeading>
@@ -380,14 +388,13 @@ export default function PrivacyPolicy() {
               your information, contact us at:
             </p>
             <p className="text-ink-2">
-              <Placeholder>[LEGAL ENTITY]</Placeholder>
+              Slash LLC
               <br />
               <Ext href="mailto:privacy@theslash.app">privacy@theslash.app</Ext>
             </p>
             <p>
-              This policy is governed by the laws of{" "}
-              <Placeholder>[JURISDICTION]</Placeholder>, without regard to its
-              conflict-of-laws rules.
+              This policy is governed by the laws of the State of Illinois,
+              without regard to its conflict-of-laws rules.
             </p>
           </Section>
         </div>
