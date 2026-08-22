@@ -21,6 +21,9 @@ const footerLinks: [string, string][] = [
   ["About us", "/about"],
   ["Privacy", "/privacy"],
   ["Terms", "/terms"],
+  // The Regulation P notice the iOS app links to at Plaid Link time. It is a
+  // separate legal artifact from /privacy, not a duplicate of it.
+  ["Consumer privacy notice", "/glba-privacy"],
   ["LinkedIn", "https://www.linkedin.com/company/the-slash-app/"],
   ["Contact", "mailto:navya@theslash.app"],
 ];
