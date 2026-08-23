@@ -6,7 +6,7 @@ This file is the project's committed home for project-intrinsic agent knowledge:
 
 The marketing site for **theslash.app**, an unreleased iPhone spending-firewall app.
 Next.js App Router + Tailwind v4 + shadcn/Radix, deployed on Vercel.
-The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, and `/terms`.
+The whole public surface is `app/page.tsx` plus `/about`, `/privacy`, `/terms`, and `/glba-privacy`.
 The header and footer are shared: `components/slash/site-header.tsx` owns the nav (add a tab to its `tabs` array, not to a page) and `components/slash/site-frame.tsx` owns the ambient wash and the footer.
 Every route now uses that shared chrome, including `/privacy` and `/terms`, which dropped their own "Back to home" link and their own hand-written footer on 2026-08-13.
 Their document column is `max-w-3xl` inside the chrome's `max-w-6xl`, on the same `px-6` gutter so the copy lines up with the header mark on narrow viewports.
@@ -14,7 +14,10 @@ Their document column is `max-w-3xl` inside the chrome's `max-w-6xl`, on the sam
 The two Privacy Policy cross-references inside the Terms stay plain body text: those sentences are load-bearing legal wording that must stay word-for-word, and rehyperlinking them would edit a transcribed page.
 
 **The legal pages are transcription, not authorship.** Their words come verbatim from `/Users/jxschraut/Documents/Slash/app-store-submission/legal/privacy-policy.md` and `terms-of-use.md`, which are the source of truth and carry a repo-internal HTML comment block that must be stripped before publishing.
-Never draft, reword, or "improve" a sentence on either page; edit the source markdown, then transcribe.
+Never draft, reword, or "improve" a sentence on any of them; edit the source markdown, then transcribe.
+`/glba-privacy` transcribes `glba-privacy-notice.md` from that same directory.
+It is the Gramm-Leach-Bliley / Regulation P consumer notice, a legally distinct artifact from `/privacy` rather than a variant of it, published because `Constants.Legal.glbaNoticeURL` in the iOS app points at it from the Plaid Link consent screen.
+Its sharing table follows the Regulation P model form, so the safe harbor depends on those rows staying in the prescribed order and wording.
 Each publication is archived under `legal/published-snapshot-<date>/` in that repo, as the plain rendered text of the live page.
 Terms Section 14 carries Apple's required minimum terms, including the third-party-beneficiary clause naming Apple; removing any of it breaks App Store compliance while `Constants.IAP.termsOfUseURL` points at `/terms`.
 
