@@ -15,9 +15,9 @@ export async function joinWaitlist(email: string) {
       throw error
     }
 
-    return { success: true, message: "Successfully joined the waitlist!" }
+    return { success: true, message: "You're on the list." }
   } catch (error) {
     console.error("Waitlist error:", error)
-    return { success: false, message: "Something went wrong. Please try again." }
+    return { success: false, message: "That didn't send. Try again." }
   }
 }

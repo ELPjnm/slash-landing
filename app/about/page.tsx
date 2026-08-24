@@ -29,13 +29,13 @@ const intro = {
   /** The headline reads as one sentence; the second half carries the
       accent gradient, the way the home page sets its own claims. */
   headline: {
-    lead: "We’ve been trained to spend before we think.",
-    accent: "Slash puts a wall between the impulse and the tap.",
+    lead: "Most of us spend before we think.",
+    accent: "Slash puts a block between the impulse and the tap.",
   },
   /** One string per paragraph. */
   body: [
     "Slash is a small, independent project with one job: help people spend less money.",
-    "Not by nagging after the money is already gone, and not by drawing another chart of it. You set one weekly cap, decide which apps it governs, and Slash holds that line while there is still something to hold.",
+    "Not by nagging after the money is already gone, and not by charting it after. You set one weekly cap, choose which apps it covers, and Slash blocks them when you reach it.",
   ],
 };
 
