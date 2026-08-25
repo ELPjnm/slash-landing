@@ -66,9 +66,9 @@ function SectionHead({
  * names the parts that deliver it.
  */
 const tenets = [
-  "Spend less, on purpose.",
-  "One honest number.",
-  "It stops you, not just tracks you.",
+  "Spend less.",
+  "One number: what's left this week.",
+  "It blocks apps. It doesn't just track.",
 ];
 
 /* ── Page ───────────────────────────────────────────────────────────── */
@@ -82,7 +82,7 @@ export default function Home() {
 
       {/* ── 1 · Hero ──────────────────────────────────────────────── */}
       <Section className="pb-20 pt-6 sm:pb-28 sm:pt-10">
-        {/* The text column is wide enough to hold "Slash makes it hold." on
+        {/* The text column is wide enough to hold "Slash enforces it." on
             one line at the headline's largest size; the phone is capped at
             its natural width, so the extra room costs it nothing. */}
         <div className="grid items-center gap-12 lg:grid-cols-[1.16fr_0.84fr] lg:gap-8">
@@ -97,7 +97,7 @@ export default function Home() {
               <h1 className="slash-head mt-5 text-[clamp(38px,7vw,64px)]">
                 Set a weekly cap.{" "}
                 <span className="gradient-text sm:block">
-                  Slash makes it hold.
+                  Slash enforces it.
                 </span>
               </h1>
             </Reveal>
@@ -106,11 +106,11 @@ export default function Home() {
               {/* The deck, the tenets, and the form all share the form's
                   measure, so the left column reads as one stack. */}
               <p className="mt-5 max-w-md text-[17px] leading-relaxed text-ink-2 sm:text-[19px]">
-                Slash watches what you spend on shopping and{" "}
+                Slash tracks your shopping spend and{" "}
                 <span className="font-semibold text-foreground">
-                  pauses the apps you picked
+                  blocks the apps you chose
                 </span>{" "}
-                when you cross the line, right on your iPhone.
+                when you pass the cap. On your iPhone.
               </p>
             </Reveal>
 
@@ -158,8 +158,8 @@ export default function Home() {
       <Section className="py-16 sm:py-20">
         <SectionHead
           eyebrow="What's inside"
-          title="A tracker and a lock, in one app."
-          body="Slash reads what you spend and acts on it. No manual logging, no dashboards to babysit."
+          title="A tracker and a block, in one app."
+          body="Slash reads what you spend and acts on it. No manual logging. No dashboards."
           centered
         />
 
@@ -180,8 +180,8 @@ export default function Home() {
               Real-time spend tracking
             </h3>
             <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-              Every shopping charge lands in Slash within minutes, so the number
-              you see is the number you have left.
+              Every shopping charge lands in Slash within minutes, so what you
+              see is what you have left.
             </p>
             <div className="mt-6">
               <Meter state="halfway" pct={63} size={9} />
@@ -204,14 +204,15 @@ export default function Home() {
               </div>
             </div>
             <h3 className="mt-6 font-display text-[18px] font-semibold tracking-tight">
-              Blocking that actually holds
+              Blocking you can&apos;t skip
             </h3>
             <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-              Slash uses Apple Screen Time to shield the apps you picked. Past
-              halfway you get a pause; past your cap it holds until the reset.
+              Slash uses Apple Screen Time to shield the apps you picked. At 50%
+              of your cap, a one-minute pause before you can open them. At 100%,
+              they stay blocked until Sunday.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {["Halfway pause", "Hard cap", "Your picks only"].map((t) => (
+              {["50% pause", "100% block", "Your picks only"].map((t) => (
                 <span
                   key={t}
                   className="slash-mono rounded-full border border-rule bg-surface px-2.5 py-1 text-[10px] uppercase tracking-[0.08em] text-ink-2"
@@ -240,14 +241,14 @@ export default function Home() {
               Bank connect via Plaid
             </h3>
             <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
-              Link your account through Plaid, the same connector your other
-              finance apps use. Slash gets read-only transactions, nothing more.
+              Link your bank through Plaid. Slash gets read-only transactions,
+              nothing more.
             </p>
             <div className="mt-6 flex flex-col gap-2">
               {[
                 "Read-only access",
                 "No card numbers stored",
-                "Revoke whenever",
+                "Disconnect any time",
               ].map((label) => (
                 <div
                   key={label}
@@ -264,9 +265,8 @@ export default function Home() {
         {/* The whole trust story, in one line. */}
         <Reveal delay={220}>
           <p className="mx-auto mt-8 max-w-[70ch] text-center text-[14px] leading-relaxed text-ink-3">
-            Slash makes money from a subscription, not from you: no ads, no data
-            selling, no tracking, and everything deletable from Settings. Read
-            the full{" "}
+            Slash is paid for by subscription. No ads, no data sales, no
+            tracking. Delete everything from Settings. Read the full{" "}
             <a
               href="/privacy"
               className="text-accent underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent"
@@ -285,10 +285,10 @@ export default function Home() {
           <div className="relative flex flex-col items-center">
             <Mark size={44} />
             <h2 className="slash-head mt-6 text-[clamp(28px,4.8vw,46px)]">
-              Put a firewall on your spending.
+              Set the cap. Slash does the rest.
             </h2>
             <p className="mt-4 text-[16px] text-ink-2 sm:text-[17px]">
-              Be first in line when Slash launches.
+              Get an email when Slash launches.
             </p>
             <div className="mt-8 flex w-full justify-center">
               <WaitlistForm />
