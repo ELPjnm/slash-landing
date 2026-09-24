@@ -25,7 +25,7 @@ const footerLinks: [string, string][] = [
   // separate legal artifact from /privacy, not a duplicate of it.
   ["Consumer privacy notice", "/glba-privacy"],
   ["LinkedIn", "https://www.linkedin.com/company/the-slash-app/"],
-  ["Contact", "mailto:navya@theslash.app"],
+  ["Contact", "/support"],
 ];
 
 /** The site footer, shared by every top-level view. */
