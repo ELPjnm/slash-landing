@@ -1,47 +1,47 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * The Slash mark — a bare Signal Purple slash, drawn as a parallelogram.
+ * The Slash mark, transcribed from the app's `SlashLogo`
+ * (`Shared/Views/SlashLogo.swift`): the standard 18° parallelogram filled
+ * with `purpleGrad`, #B388FF top-leading to #7A4FFF bottom-trailing.
  *
  * This is the site's only logo primitive. Every Slash mark on the site
  * renders through it, so the glyph is identical everywhere by construction.
  *
- * Geometry, all in viewBox units where the height is 100:
- *
- *   stroke   0.10 × height, the horizontal thickness of the bar
- *   slant    0.20 × height of horizontal run, top-right to bottom-left
- *   glyph    0.30 × height wide (stroke + slant), centred in the box
- *   box      0.50 × height wide, so the element is always 1:2
- *
- * The box stays 1:2 because every call site sizes against it; the glyph is
- * inset within it rather than filling it. That is what lets the bar thin
- * out without changing either the element's proportions or the angle.
- *
- * **The 0.10 stroke is a deliberate divergence from the app.** The iOS
- * captures draw this bar at 0.30 × height, filling the box edge to edge,
- * and the mark was transcribed at that weight; on the web it read chunky,
- * so the owner asked for a thin, typographic slash instead. Do not "restore"
- * the heavier bar by citing `onboarding-welcome` or the Home sticky header.
+ * The polygon and the 48×60 frame are the app's verbatim, and `size` means
+ * what it means in Swift: the frame height, with the width at 0.8 × that.
+ * `<Mark size={28} />` is pixel-for-pixel `SlashLogo(size: 28)`. Do not
+ * redraw the bar thinner, thicker, or at another slant; change the Swift
+ * first and transcribe it.
  */
 export function Mark({
   size = 28,
   className,
 }: {
-  /** Height of the mark in px; width follows at half the height. */
+  /** Frame height in px, as `SlashLogo(size:)`; width follows at 0.8×. */
   size?: number;
   className?: string;
 }) {
+  // One gradient per instance so ids never collide; it spans the whole
+  // frame, as SwiftUI's `.fill` maps `.topLeading`/`.bottomTrailing`.
+  const id = useId();
   return (
     <svg
       aria-hidden
-      className={cn("flex-none text-accent", className)}
-      width={size * 0.5}
+      className={cn("flex-none", className)}
+      width={size * 0.8}
       height={size}
-      viewBox="0 0 50 100"
+      viewBox="0 0 48 60"
       fill="none"
     >
-      <path d="M30 0 H40 L20 100 H10 Z" fill="currentColor" />
+      <defs>
+        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="60">
+          <stop offset="0" stopColor="#B388FF" />
+          <stop offset="1" stopColor="#7A4FFF" />
+        </linearGradient>
+      </defs>
+      <polygon points="27.6,5 36.6,5 20.4,55 11.4,55" fill={`url(#${id})`} />
     </svg>
   );
 }

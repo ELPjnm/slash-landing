@@ -61,9 +61,8 @@ Headlines are sentence case with a terminal period; that full stop is the app's 
 The app motifs live in `components/slash/` — the `/` mark, the shield glyph, the meter, the Access ring, and the phone frame. Reuse those rather than redrawing them.
 
 **`Mark` in `components/slash/marks.tsx` is the site's only logo primitive**, and every Slash mark on the site goes through it: header, hero tenets, closing CTA, footer.
-The element is always 1:2, width half the height, because every call site sizes against that box.
-The bar itself is thin, `0.10 × height`, and inset within the box rather than filling it; that is a deliberate divergence from the iOS captures, which draw it at `0.30 × height`, because the heavy bar read chunky on the web.
-The geometry and the reason are documented on the component; do not restore the heavier bar by citing the app screenshots.
+It transcribes the app's `SlashLogo` (`Shared/Views/SlashLogo.swift`) verbatim: the 18° parallelogram in a 48×60 frame, filled with `purpleGrad`, and `size` is the frame height with the width at 0.8×, exactly as in Swift.
+It once drew a thinner, shallower 11° bar in a 1:2 box, which read as a different logo next to the real app captures in the phone mockup; do not redraw it, change the Swift first and transcribe it.
 The header once rendered the square app icon from `public/slash-logo.png` instead, which put a 1:1 badge beside the bare 1:2 slash everywhere else; that raster and an off-ratio `public/logo.png` were deleted so there is nothing left to reach for.
 Never introduce a logo `<img>` or hand-set SVG; the favicon is the separate iOS artwork at `app/icon.png` and is not the site's mark.
 
