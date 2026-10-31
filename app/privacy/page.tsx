@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
               your transactions; we store that token in{" "}
               <strong className="font-semibold text-foreground">encrypted</strong> form
               and never expose it to the app or any third party. We do not receive
-              or store your online banking username or password — you enter those
+              or store your online banking username or password; you enter those
               directly with Plaid. Plaid's handling of your information is
               governed by Plaid's own end-user privacy policy, available at{" "}
               <Ext href="https://plaid.com/legal/">plaid.com/legal</Ext>.
@@ -194,7 +194,7 @@ export default function PrivacyPolicy() {
             <p>We use the information described above to:</p>
             <List>
               <li>
-                provide the core function of the app — monitoring your spending
+                provide the core function of the app: monitoring your spending
                 against the limit you set and blocking the apps you selected when
                 you exceed it;
               </li>
@@ -261,12 +261,12 @@ export default function PrivacyPolicy() {
             </p>
             <List>
               <li>
-                <strong className="font-semibold text-foreground">Plaid</strong> —
+                <strong className="font-semibold text-foreground">Plaid</strong>:
                 connects to your bank and provides transaction data. See{" "}
                 <Ext href="https://plaid.com/legal/">plaid.com/legal</Ext>.
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Supabase</strong> —
+                <strong className="font-semibold text-foreground">Supabase</strong>:
                 provides authentication and database hosting for your account,
                 settings, and transaction records. See{" "}
                 <Ext href="https://supabase.com/privacy">
@@ -275,7 +275,7 @@ export default function PrivacyPolicy() {
                 .
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Railway</strong> —
+                <strong className="font-semibold text-foreground">Railway</strong>:
                 hosts our backend server infrastructure. See{" "}
                 <Ext href="https://railway.app/legal/privacy">
                   railway.app/legal/privacy
@@ -283,13 +283,13 @@ export default function PrivacyPolicy() {
                 .
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Sentry</strong> —
+                <strong className="font-semibold text-foreground">Sentry</strong>:
                 receives the diagnostic data described above to help us find and
                 fix errors. See{" "}
                 <Ext href="https://sentry.io/privacy/">sentry.io/privacy</Ext>.
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Apple</strong> —
+                <strong className="font-semibold text-foreground">Apple</strong>:
                 processes your subscription purchases and operates the App Store
                 and Screen Time technology. See{" "}
                 <Ext href="https://www.apple.com/legal/privacy/">
