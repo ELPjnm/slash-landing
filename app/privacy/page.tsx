@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
         </h1>
         <p className="mb-10 text-sm text-ink-3">
           <span className="font-semibold text-ink-2">Effective date:</span>{" "}
-          August 13, 2026
+          October 31, 2026
         </p>
 
         <div className="space-y-5 text-[1.0625rem] leading-relaxed text-ink-2">
@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
               your transactions; we store that token in{" "}
               <strong className="font-semibold text-foreground">encrypted</strong> form
               and never expose it to the app or any third party. We do not receive
-              or store your online banking username or password — you enter those
+              or store your online banking username or password; you enter those
               directly with Plaid. Plaid's handling of your information is
               governed by Plaid's own end-user privacy policy, available at{" "}
               <Ext href="https://plaid.com/legal/">plaid.com/legal</Ext>.
@@ -141,6 +141,28 @@ export default function PrivacyPolicy() {
               sign out or delete your account.
             </p>
 
+            <SubHeading>Diagnostic data</SubHeading>
+            <p>
+              To find and fix errors and slow performance, the app and our
+              servers send diagnostic data to{" "}
+              <strong className="font-semibold text-foreground">Sentry</strong>,
+              our error-monitoring provider. From the app, this is crash reports
+              and app hangs (stack traces, device model, iOS version, and app
+              version), failed requests to our servers, and performance timings
+              such as app start and screen loads. From our servers, this is error
+              messages and stack traces, the route pattern and timing of each
+              request, the addresses of the services our servers call (without
+              query strings), user-agent strings, and server performance metrics.
+            </p>
+            <p>
+              Before anything is sent, we remove account identifiers, email
+              addresses, tokens, and query strings, and we never attach your
+              identity, so diagnostic data is not linked to you. It never
+              includes your transactions, your spending limits, screenshots, or
+              the contents of your requests, and we do not use it for analytics,
+              advertising, or tracking.
+            </p>
+
             <SubHeading>Information that stays on your device</SubHeading>
             <p>
               The selection of{" "}
@@ -172,7 +194,7 @@ export default function PrivacyPolicy() {
             <p>We use the information described above to:</p>
             <List>
               <li>
-                provide the core function of the app — monitoring your spending
+                provide the core function of the app: monitoring your spending
                 against the limit you set and blocking the apps you selected when
                 you exceed it;
               </li>
@@ -239,12 +261,12 @@ export default function PrivacyPolicy() {
             </p>
             <List>
               <li>
-                <strong className="font-semibold text-foreground">Plaid</strong> —
+                <strong className="font-semibold text-foreground">Plaid</strong>:
                 connects to your bank and provides transaction data. See{" "}
                 <Ext href="https://plaid.com/legal/">plaid.com/legal</Ext>.
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Supabase</strong> —
+                <strong className="font-semibold text-foreground">Supabase</strong>:
                 provides authentication and database hosting for your account,
                 settings, and transaction records. See{" "}
                 <Ext href="https://supabase.com/privacy">
@@ -253,7 +275,7 @@ export default function PrivacyPolicy() {
                 .
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Railway</strong> —
+                <strong className="font-semibold text-foreground">Railway</strong>:
                 hosts our backend server infrastructure. See{" "}
                 <Ext href="https://railway.app/legal/privacy">
                   railway.app/legal/privacy
@@ -261,7 +283,13 @@ export default function PrivacyPolicy() {
                 .
               </li>
               <li>
-                <strong className="font-semibold text-foreground">Apple</strong> —
+                <strong className="font-semibold text-foreground">Sentry</strong>:
+                receives the diagnostic data described above to help us find and
+                fix errors. See{" "}
+                <Ext href="https://sentry.io/privacy/">sentry.io/privacy</Ext>.
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">Apple</strong>:
                 processes your subscription purchases and operates the App Store
                 and Screen Time technology. See{" "}
                 <Ext href="https://www.apple.com/legal/privacy/">
