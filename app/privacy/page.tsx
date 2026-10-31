@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
         </h1>
         <p className="mb-10 text-sm text-ink-3">
           <span className="font-semibold text-ink-2">Effective date:</span>{" "}
-          August 13, 2026
+          October 31, 2026
         </p>
 
         <div className="space-y-5 text-[1.0625rem] leading-relaxed text-ink-2">
@@ -139,6 +139,28 @@ export default function PrivacyPolicy() {
               your blocking status up to date; you can revoke this at any time
               in iOS notification settings, and we remove the token when you
               sign out or delete your account.
+            </p>
+
+            <SubHeading>Diagnostic data</SubHeading>
+            <p>
+              To find and fix errors and slow performance, the app and our
+              servers send diagnostic data to{" "}
+              <strong className="font-semibold text-foreground">Sentry</strong>,
+              our error-monitoring provider. From the app, this is crash reports
+              and app hangs (stack traces, device model, iOS version, and app
+              version), failed requests to our servers, and performance timings
+              such as app start and screen loads. From our servers, this is error
+              messages and stack traces, the route pattern and timing of each
+              request, the addresses of the services our servers call (without
+              query strings), user-agent strings, and server performance metrics.
+            </p>
+            <p>
+              Before anything is sent, we remove account identifiers, email
+              addresses, tokens, and query strings, and we never attach your
+              identity, so diagnostic data is not linked to you. It never
+              includes your transactions, your spending limits, screenshots, or
+              the contents of your requests, and we do not use it for analytics,
+              advertising, or tracking.
             </p>
 
             <SubHeading>Information that stays on your device</SubHeading>
@@ -259,6 +281,12 @@ export default function PrivacyPolicy() {
                   railway.app/legal/privacy
                 </Ext>
                 .
+              </li>
+              <li>
+                <strong className="font-semibold text-foreground">Sentry</strong> —
+                receives the diagnostic data described above to help us find and
+                fix errors. See{" "}
+                <Ext href="https://sentry.io/privacy/">sentry.io/privacy</Ext>.
               </li>
               <li>
                 <strong className="font-semibold text-foreground">Apple</strong> —
