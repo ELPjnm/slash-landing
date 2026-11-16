@@ -26,6 +26,7 @@ export function Mark({
   // One gradient per instance so ids never collide; it spans the whole
   // frame, as SwiftUI's `.fill` maps `.topLeading`/`.bottomTrailing`.
   const id = useId();
+
   return (
     <svg
       aria-hidden

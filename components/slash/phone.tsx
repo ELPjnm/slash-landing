@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 /** Natural pixel size of every capture in public/app. */
 const SHOT_W = 1206;
 const SHOT_H = 2622;
+
 /** Rows of the capture covered by the frame's own status bar. */
 const CROP_TOP = 170;
 
@@ -32,8 +33,10 @@ export type Shot =
 
 /** Bezel thickness as a fraction of the outer device width. */
 const BEZEL = 0.032;
+
 /** Everything inside the frame is sized against the screen, not the device. */
 const S = 1 - BEZEL * 2;
+
 /** `n` as a fraction of the screen, expressed in container-width units. */
 const cq = (n: number) => `${(n * S * 100).toFixed(3)}cqw`;
 

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Oxlint on staged JS/TS files. Enabled by `npm install` (prepare sets core.hooksPath).
+files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.mjs' '*.cjs')
+[ -z "$files" ] && exit 0
+# shellcheck disable=SC2086
+exec npx --no-install oxlint $files

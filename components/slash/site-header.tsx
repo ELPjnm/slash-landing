@@ -37,6 +37,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-4 sm:gap-6">
           {tabs.map((tab) => {
             const active = pathname === tab.href;
+
             return (
               <Link
                 key={tab.href}

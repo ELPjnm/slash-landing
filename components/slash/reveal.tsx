@@ -6,7 +6,7 @@ import {
   useState,
   type CSSProperties,
   type ElementType,
-  type ReactNode,
+  type HTMLAttributes,
 } from "react";
 import { cn } from "@/lib/utils";
 
@@ -33,19 +33,18 @@ export function Reveal({
   delay = 0,
   as: Tag = "div",
   ...rest
-}: {
-  children: ReactNode;
-  className?: string;
+}: HTMLAttributes<HTMLElement> & {
   /** Stagger, in ms. */
   delay?: number;
   as?: ElementType;
-} & Record<string, unknown>) {
+}) {
   const ref = useRef<HTMLElement>(null);
   // "static" until hydration decides this element is worth animating.
   const [phase, setPhase] = useState<"static" | "hidden" | "shown">("static");
 
   useEffect(() => {
     const el = ref.current;
+
     if (!el) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -58,18 +57,23 @@ export function Reveal({
     setPhase("hidden");
 
     let frame = 0;
+
     const check = () => {
       frame = 0;
+
       if (!ref.current) return;
+
       if (ref.current.getBoundingClientRect().top < threshold()) {
         setPhase("shown");
         cleanup();
       }
     };
+
     const schedule = () => {
       if (frame) return;
       frame = requestAnimationFrame(check);
     };
+
     const cleanup = () => {
       if (frame) cancelAnimationFrame(frame);
       frame = 0;
@@ -79,6 +83,7 @@ export function Reveal({
 
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
+
     return cleanup;
   }, []);
 
@@ -87,6 +92,7 @@ export function Reveal({
       ref={ref}
       data-reveal={phase}
       className={cn("slash-reveal", className)}
+      // SAFETY: CSSProperties has no index signature for custom properties; the one key is a valid CSS variable.
       style={{ "--reveal-delay": `${delay}ms` } as CSSProperties}
       {...rest}
     >

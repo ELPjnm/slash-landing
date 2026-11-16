@@ -14,9 +14,11 @@ import { cn } from "@/lib/utils";
  */
 export function WaitlistForm({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
+
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
