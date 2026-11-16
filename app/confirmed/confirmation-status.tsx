@@ -15,6 +15,7 @@ export function ConfirmationStatus() {
     if (!window.location.hash) return;
     const failed = window.location.hash.includes("error=");
     window.history.replaceState(null, "", "/confirmed");
+
     if (failed) setExpired(true);
   }, []);
 

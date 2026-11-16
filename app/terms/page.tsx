@@ -382,12 +382,6 @@ function Section({
   );
 }
 
-function SubHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="pt-1 text-lg font-semibold text-foreground">{children}</h3>
-  );
-}
-
 function List({ children }: { children: React.ReactNode }) {
   return (
     <ul className="list-disc space-y-2 pl-6 marker:text-primary">{children}</ul>

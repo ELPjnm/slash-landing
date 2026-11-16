@@ -12,12 +12,14 @@ export async function joinWaitlist(email: string) {
       if (error.code === "23505") {
         return { success: false, message: "This email is already on the waitlist." }
       }
+
       throw error
     }
 
     return { success: true, message: "You're on the list." }
   } catch (error) {
     console.error("Waitlist error:", error)
+
     return { success: false, message: "That didn't send. Try again." }
   }
 }
