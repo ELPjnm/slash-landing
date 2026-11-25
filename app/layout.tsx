@@ -25,9 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Slash — The Spending Firewall",
+  title: "Slash: Slash your spending",
   description:
-    "Slash blocks your shopping apps when you overspend. Set a weekly cap, connect your bank, and Slash blocks the apps you chose on your iPhone. Join the waitlist.",
+    "Slash tracks your shopping and blocks the apps you choose when you overspend. $2.99 a month, and we never sell your data. Join the waitlist.",
 }
 
 export const viewport = {
