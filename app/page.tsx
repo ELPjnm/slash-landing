@@ -97,11 +97,11 @@ export default function Home() {
               {/* The deck, the tenets, and the form all share the form's
                   measure, so the left column reads as one stack. */}
               <p className="mt-5 max-w-md text-[17px] leading-relaxed text-ink-2 sm:text-[19px]">
-                Slash tracks your shopping spend and{" "}
+                Slash tracks your shopping and{" "}
                 <span className="font-semibold text-foreground">
-                  blocks the apps you chose
+                  blocks the apps you choose
                 </span>{" "}
-                when you pass the cap. On your iPhone.
+                when you overspend. On your iPhone.
               </p>
             </Reveal>
 
