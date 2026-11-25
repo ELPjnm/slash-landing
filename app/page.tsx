@@ -66,9 +66,9 @@ function SectionHead({
  * names the parts that deliver it.
  */
 const tenets = [
-  "Spend less.",
-  "One number: what's left this week.",
-  "It blocks apps. It doesn't just track.",
+  "$2.99 month",
+  "We will never sell your data",
+  "Block apps when you overspend",
 ];
 
 /* ── Page ───────────────────────────────────────────────────────────── */
@@ -87,18 +87,9 @@ export default function Home() {
             its natural width, so the extra room costs it nothing. */}
         <div className="grid items-center gap-12 lg:grid-cols-[1.16fr_0.84fr] lg:gap-8">
           <div>
-            <Reveal>
-              <span className="slash-micro inline-block rounded-full border border-accent/30 bg-accent-soft px-3 py-1.5 text-[10.5px] text-accent">
-                The Spending Firewall
-              </span>
-            </Reveal>
-
             <Reveal delay={60}>
-              <h1 className="slash-head mt-5 text-[clamp(38px,7vw,64px)]">
-                Set a weekly cap.{" "}
-                <span className="gradient-text sm:block">
-                  Slash enforces it.
-                </span>
+              <h1 className="slash-head text-[clamp(38px,7vw,64px)]">
+                <span className="gradient-text">Slash your spending!</span>
               </h1>
             </Reveal>
 
